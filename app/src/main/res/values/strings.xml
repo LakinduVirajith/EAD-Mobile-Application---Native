@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EAD-Mobile-Application</string>
+    <string name="app_name">EAD Mobile</string>
 
     <!--    Sign Up Activity    -->
     <string name="sign_up">Sign Up</string>
@@ -21,4 +21,10 @@
     <string name="sign_in">Sign In</string>
     <string name="don_t_have_an_account">Don\'t have an account?\u00A0</string>
     <string name="sign_up_underline"><u>Sign Up</u></string>
+
+    <!--   Navigation Bar    -->
+    <string name="home">Home</string>
+    <string name="order">Order</string>
+    <string name="cart">Cart</string>
+    <string name="account">Account</string>
 </resources>

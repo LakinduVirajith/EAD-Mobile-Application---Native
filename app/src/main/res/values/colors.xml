@@ -6,5 +6,8 @@
     <color name="black40">#FF404040</color>
     <color name="black60">#FF606060</color>
     <color name="black80">#FF808080</color>
+    <color name="black100">#FFAAAAAA</color>
+
+    <color name="primeGreen">#44E165</color>
     <color name="lightBackground">#FFFAFAFA</color>
 </resources>

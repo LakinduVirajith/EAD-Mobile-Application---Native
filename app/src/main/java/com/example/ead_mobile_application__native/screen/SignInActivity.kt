@@ -64,11 +64,11 @@ class SignInActivity : AppCompatActivity() {
             if (isPasswordVisible) {
                 // Show password
                 passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                passwordToggle.setImageResource(R.drawable.ic_baseline_visibility_off_24) // Closed eye icon
+                passwordToggle.setImageResource(R.drawable.ic_close_eye) // Closed eye icon
             } else {
                 // Hide password
                 passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                passwordToggle.setImageResource(R.drawable.ic_baseline_visibility_24) // Open eye icon
+                passwordToggle.setImageResource(R.drawable.ic_open_eye) // Open eye icon
             }
             // Move cursor to the end of the text
             passwordEditText.setSelection(passwordEditText.text.length)
@@ -92,6 +92,9 @@ class SignInActivity : AppCompatActivity() {
                     // Show feedback based on response
                     if (response != null) {
                         Toast.makeText(this, "Sign Up successful", Toast.LENGTH_SHORT).show()
+
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
                     } else {
                         Toast.makeText(this, "Sign Up failed", Toast.LENGTH_SHORT).show()
                     }
@@ -101,6 +104,8 @@ class SignInActivity : AppCompatActivity() {
             // Alert user to fill all fields
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
         }
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
     }
 
     // Function to handle sign-up navigation

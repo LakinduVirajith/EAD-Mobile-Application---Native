@@ -56,7 +56,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_baseline_email_24"
+                android:src="@drawable/ic_email"
                 android:contentDescription="@string/email_icon"
                 app:tint="@android:color/black" />
         </LinearLayout>
@@ -88,7 +88,7 @@
                 android:id="@+id/siPasswordToggle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_baseline_visibility_24"
+                android:src="@drawable/ic_open_eye"
                 android:contentDescription="@string/password_eye_icon"
                 app:tint="@android:color/black"
                 android:clickable="true"
@@ -106,7 +106,7 @@
             android:textColor="@android:color/white"
             android:background="@drawable/button_background" />
 
-        <!-- Already Have an Account -->
+        <!-- Don't Have an Account -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
