@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/phone_number"
-                android:inputType="text|phone"
+                android:inputType="phone|number"
                 android:textColor="@color/black20"
                 android:textColorHint="@color/black80"
                 android:paddingHorizontal="6dp"
