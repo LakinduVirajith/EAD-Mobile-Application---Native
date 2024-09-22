@@ -1,6 +1,7 @@
 package com.example.ead_mobile_application__native.service
 
 import com.example.ead_mobile_application__native.model.Customer
+import com.example.ead_mobile_application__native.model.SignIn
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody
@@ -23,7 +24,29 @@ class CustomerApiService {
             .build()
 
         val request = Request.Builder()
-            .url("http://BACKEND_SERVER_URL/api/auth/register")
+            .url("http://BACKEND_SERVER_URL/api/v1/auth/sign-up")
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callback(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                callback(response.body?.string())
+            }
+        })
+    }
+
+    fun signIn(signIn: SignIn, callback: (String?) -> Unit) {
+        val requestBody = FormBody.Builder()
+            .add("email", signIn.email)
+            .add("password", signIn.password)
+            .build()
+
+        val request = Request.Builder()
+            .url("http://BACKEND_SERVER_URL/api/v1/auth/sign-in")
             .post(requestBody)
             .build()
 
