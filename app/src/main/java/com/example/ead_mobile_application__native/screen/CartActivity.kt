@@ -14,13 +14,20 @@ class CartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_cart)
+
+        // HANDLE WINDOW INSETS FOR EDGE-TO-EDGE DISPLAY
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cartActivity)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Setup BottomNavigationView
+        // SETUP NAVIGATION BAR
+        setupBottomNavigationView()
+    }
+
+    // SETUP BOTTOM NAVIGATION VIEW AND ITS ITEM SELECTION
+    private fun setupBottomNavigationView() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.nvCart
 
