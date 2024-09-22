@@ -56,7 +56,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_baseline_person_24"
+                android:src="@drawable/ic_user"
                 android:contentDescription="@string/user_icon"
                 app:tint="@android:color/black" />
         </LinearLayout>
@@ -87,7 +87,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_baseline_email_24"
+                android:src="@drawable/ic_email"
                 android:contentDescription="@string/email_icon"
                 app:tint="@android:color/black" />
         </LinearLayout>
@@ -119,7 +119,7 @@
                 android:id="@+id/suPasswordToggle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_baseline_visibility_24"
+                android:src="@drawable/ic_open_eye"
                 android:contentDescription="@string/password_eye_icon"
                 app:tint="@android:color/black"
                 android:clickable="true"
@@ -152,7 +152,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_baseline_phone_android_24"
+                android:src="@drawable/ic_telephone"
                 android:contentDescription="@string/phone_icon"
                 app:tint="@android:color/black" />
         </LinearLayout>
@@ -184,7 +184,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_baseline_edit_calendar_24"
+                android:src="@drawable/ic_calendar"
                 android:contentDescription="@string/calender_icon"
                 app:tint="@android:color/black" />
         </LinearLayout>
