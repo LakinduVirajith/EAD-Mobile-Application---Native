@@ -1,11 +1,14 @@
 package com.example.ead_mobile_application__native.screen
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.WindowInsetsController
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -13,10 +16,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.adapter.BannerAdapter
-import com.example.ead_mobile_application__native.model.Customer
+import com.example.ead_mobile_application__native.adapter.ProductAdapter
 import com.example.ead_mobile_application__native.model.Product
 import com.example.ead_mobile_application__native.service.ProductApiService
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -26,20 +31,90 @@ import com.google.gson.reflect.TypeToken
 class HomeActivity : AppCompatActivity() {
     // DECLARE VIEWS
     private lateinit var viewPager: ViewPager2
+    private lateinit var searchEditText: EditText
+    private lateinit var productRecyclerView: RecyclerView
+    private lateinit var productAdapter: ProductAdapter
+
+    // HANDLER FOR BANNER SLIDING
     private lateinit var handler: Handler
     private var currentPage = 0
-    private lateinit var searchEditText: EditText
     private var searchRunnable: Runnable? = null
 
-    // INSTANCE OF THE PRODUCT API SERVICE
+    // API SERVICE INSTANCE
     private val productApiService = ProductApiService()
-//    private lateinit var productAdapter: ProductAdapter
-//    private var productList: List<Product> = listOf()
+
+    // SAMPLE PRODUCT LIST
+    private var productList = listOf(
+        Product(
+            name = "Product 1",
+            price = "$10",
+            description = "High-quality product with excellent features.",
+            imageResId = R.drawable.product_1,
+            rating = 4.5f,
+            category = "Electronics",
+            stockQuantity = 100
+        ),
+        Product(
+            name = "Product 2",
+            price = "$15",
+            description = "Durable and reliable product for everyday use.",
+            imageResId = R.drawable.product_2,
+            rating = 4.0f,
+            category = "Clothing",
+            stockQuantity = 50
+        ),
+        Product(
+            name = "Product 3",
+            price = "$20",
+            description = "Stylish design with great functionality.",
+            imageResId = R.drawable.product_3,
+            rating = 4.2f,
+            category = "Accessories",
+            stockQuantity = 75
+        ),
+        Product(
+            name = "Product 4",
+            price = "$25",
+            description = "Top-rated product with positive customer feedback.",
+            imageResId = R.drawable.product_4,
+            rating = 4.8f,
+            category = "Electronics",
+            stockQuantity = 200
+        ),
+        Product(
+            name = "Product 5",
+            price = "$30",
+            description = "Affordable and reliable product for everyone.",
+            imageResId = R.drawable.product_5,
+            rating = 4.1f,
+            category = "Home",
+            stockQuantity = 30
+        ),
+        Product(
+            name = "Product 6",
+            price = "$35",
+            description = "Latest model with advanced features.",
+            imageResId = R.drawable.product_6,
+            rating = 4.7f,
+            category = "Electronics",
+            stockQuantity = 60
+        )
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+
+        // SET STATUS BAR ICONS TO LIGHT (BLACK) IN DARK THEME
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.decorView.windowInsetsController?.setSystemBarsAppearance(
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
+        } else {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
 
         // HANDLE WINDOW INSETS FOR EDGE-TO-EDGE DISPLAY
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.homeActivity)) { v, insets ->
@@ -48,22 +123,25 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
-        // INITIALIZE VIEWS
-        viewPager = findViewById(R.id.bannerViewPager)
-        searchEditText = findViewById(R.id.pSearch)
-        val searchIcon = findViewById<ImageView>(R.id.pSearchIcon)
+        // FIND UI COMPONENTS BY ID
+        viewPager = findViewById(R.id.hBannerViewPager)
+        searchEditText = findViewById(R.id.hSearch)
+        productRecyclerView = findViewById(R.id.hProductRecyclerView)
+
+        // SET CLICK LISTENER FOR SEARCH ICON
+        val searchIcon = findViewById<ImageView>(R.id.hSearchIcon)
+        searchIcon.setOnClickListener {
+            performSearch(searchEditText.text.toString())
+        }
 
         // SETUP NAVIGATION BAR
         setupBottomNavigationView()
+
         // SETUP BANNER VIEW PAGER
         setupBannerView()
 
         // SETUP SEARCH FUNCTIONALITY
         setupSearchFunctionality()
-        // SETUP CLICK LISTENER FOR SEARCH ICON
-        searchIcon.setOnClickListener {
-            performSearch(searchEditText.text.toString())
-        }
 
         // SETUP PRODUCT LIST AND ADAPTER
         setupProductList()
@@ -141,9 +219,22 @@ class HomeActivity : AppCompatActivity() {
     // FUNCTION TO SETUP PRODUCT LIST AND ADAPTER
     private fun setupProductList() {
         // INITIALIZE THE ADEPTER WITH AND EMPTY PRODUCT LIST
-//        productAdapter = ProductAdapter(productList)
-//        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-//        recyclerView.adapter = productAdapter
+        productAdapter = ProductAdapter(productList)
+        productRecyclerView.adapter = productAdapter
+        productRecyclerView.layoutManager = GridLayoutManager(this, 2)
+
+        return
+
+        productApiService.homeProducts() { response ->
+            runOnUiThread {
+                // UPDATE PRODUCT LIST BASED ON RESPONSE
+                if (response != null) {
+                    val gson = Gson()
+                    val productType = object : TypeToken<List<Product>>() {}.type
+                    updateProductList(gson.fromJson(response, productType))
+                }
+            }
+        }
     }
 
     // FUNCTION TO SETUP SEARCH FUNCTIONALITY
@@ -171,9 +262,8 @@ class HomeActivity : AppCompatActivity() {
 
     // FUNCTION TO UPDATE PRODUCT LIST
     private fun updateProductList(products: List<Product>) {
-//        productList = products
-//        productAdapter.updateProducts(products)
-//        productAdapter.notifyDataSetChanged()
+        productList = products
+        productAdapter.updateProducts(products)
     }
 
     // FUNCTION TO PERFORM SEARCH

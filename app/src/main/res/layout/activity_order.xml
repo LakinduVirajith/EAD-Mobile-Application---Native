@@ -22,12 +22,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/bottomNavigationView"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_background"
+        android:background="@drawable/nav_bottom_background"
         android:layout_margin="24dp"
         android:elevation="2dp"
         app:menu="@menu/bottom_menu"
         app:itemIconSize="32dp"
-        app:itemIconTint="@drawable/item_selector"
+        app:itemIconTint="@drawable/nav_item_selector"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled" />
 

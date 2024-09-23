@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -137,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -170,7 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -205,7 +205,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
