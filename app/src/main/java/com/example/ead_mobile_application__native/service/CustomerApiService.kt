@@ -72,7 +72,53 @@ class CustomerApiService {
 
         val request = Request.Builder()
             .url("http://BACKEND_SERVER_URL/api/v1/auth/change-email")
-            .post(requestBody)
+            .put(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callback(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                callback(response.body?.string())
+            }
+        })
+    }
+
+    // SERVICE FUNCTION TO CHANGE CUSTOMER PASSWORD
+    fun changePassword(email: String, currentPassword: String, newPassword: String, callback: (String?) -> Unit) {
+        val requestBody = FormBody.Builder()
+            .add("email", email)
+            .add("currentPassword", currentPassword)
+            .add("newPassword", newPassword)
+            .build()
+
+        val request = Request.Builder()
+            .url("http://BACKEND_SERVER_URL/api/v1/auth/change-password")
+            .put(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callback(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                callback(response.body?.string())
+            }
+        })
+    }
+
+    // SERVICE FUNCTION TO DEACTIVATE ACCOUNT
+    fun deactivateAccount(email: String, callback: (String?) -> Unit) {
+        val requestBody = FormBody.Builder()
+            .add("email", email)
+            .build()
+
+        val request = Request.Builder()
+            .url("http://BACKEND_SERVER_URL/api/v1/auth/deactivate")
+            .put(requestBody)
             .build()
 
         client.newCall(request).enqueue(object : Callback {

@@ -91,18 +91,18 @@ class SignInActivity : AppCompatActivity() {
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
                     if (response != null) {
-                        Toast.makeText(this, "Sign Up successful", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign In Successful", Toast.LENGTH_SHORT).show()
 
                         val intent = Intent(this, HomeActivity::class.java)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this, "Sign Up failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         } else {
             // ALERT USER TO FILL ALL FIELDS
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please Fill All Fields", Toast.LENGTH_SHORT).show()
         }
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
