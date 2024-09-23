@@ -22,23 +22,25 @@ import java.util.Calendar
 import java.util.Locale
 
 class SignUpActivity : AppCompatActivity() {
-    // Instance of the customer API service
+    // INSTANCE OF THE CUSTOMER API SERVICE
     private val customerApiService = CustomerApiService()
 
-    // Track password visibility status
+    // TRACK PASSWORD VISIBILITY STATUS
     private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_sign_up)
+
+        // HANDLE WINDOW INSETS FOR EDGE-TO-EDGE DISPLAY
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.signUpActivity)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Initialize views
+        // INITIALIZE VIEWS
         val userNameEditText = findViewById<EditText>(R.id.suUserName)
         val emailEditText = findViewById<EditText>(R.id.suEmail)
         val passwordEditText = findViewById<EditText>(R.id.suPassword)
@@ -50,28 +52,28 @@ class SignUpActivity : AppCompatActivity() {
         val btnSignUp = findViewById<Button>(R.id.suBtnSignUp)
         val txtSignIn = findViewById<TextView>(R.id.suSignIn)
 
-        // Set up the spinner for gender selection
+        // SET UP THE SPINNER FOR GENDER SELECTION
         setupGenderSpinner(genderSpinner)
 
-        // Set up password visibility toggle functionality
+        // SET UP PASSWORD VISIBILITY TOGGLE FUNCTIONALITY
         setupPasswordToggle(passwordEditText, passwordToggle)
 
-        // Set up date picker for Date of Birth EditText
+        // SET UP DATE PICKER FOR DATE OF BIRTH EDIT-TEXT
         setupDatePicker(dateOfBirthEditText)
 
-        // Handle sign-up button click
+        // HANDLE SIGN-UP BUTTON CLICK
         btnSignUp.setOnClickListener {
             handleSignUp(userNameEditText, emailEditText, passwordEditText,
                 phoneNumberEditText, dateOfBirthEditText, genderSpinner)
         }
 
-        // Handle sign-in text click
+        // HANDLE SIGN-IN TEXT CLICK
         txtSignIn.setOnClickListener {
             handleNavigation()
         }
     }
 
-    // Function to set up the gender spinner
+    // FUNCTION TO SET UP THE GENDER SPINNER
     private fun setupGenderSpinner(genderSpinner: Spinner) {
         val genderOptions = arrayOf("Male", "Female", "Other")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderOptions)
@@ -79,42 +81,42 @@ class SignUpActivity : AppCompatActivity() {
         genderSpinner.adapter = adapter
     }
 
-    // Function to set up password visibility toggle
+    // FUNCTION TO SET UP PASSWORD VISIBILITY TOGGLE
     private fun setupPasswordToggle(passwordEditText: EditText, passwordToggle: ImageView) {
         passwordToggle.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
             if (isPasswordVisible) {
-                // Show password
+                // SHOW PASSWORD
                 passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 passwordToggle.setImageResource(R.drawable.ic_close_eye) // Closed eye icon
             } else {
-                // Hide password
+                // HIDE PASSWORD
                 passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 passwordToggle.setImageResource(R.drawable.ic_open_eye) // Open eye icon
             }
-            // Move cursor to the end of the text
+            // MOVE CURSOR TO THE END OF THE TEXT
             passwordEditText.setSelection(passwordEditText.text.length)
         }
     }
 
-    // Function to set up DatePicker for date of birth
+    // FUNCTION TO SET UP DATE-PICKER FOR DATE OF BIRTH
     private fun setupDatePicker(dateOfBirthEditText: EditText) {
-        // Disable keyboard input for the date EditText
+        // DISABLE KEYBOARD INPUT FOR THE DATA EDIT-TEXT
         dateOfBirthEditText.inputType = InputType.TYPE_NULL
         dateOfBirthEditText.isFocusable = false
 
-        // Set up a click listener to show DatePickerDialog
+        // SET UP A CLICK LISTENER TO SHOW DATA-PICKER DIALOG
         dateOfBirthEditText.setOnClickListener {
-            // Create a calendar instance for DatePicker
+            // CREATE A CALENDER INSTANCE FOR DATE-PICKER
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            // Create DatePickerDialog
+            // CREATE DATE-PICKER DIALOG
             val datePickerDialog = DatePickerDialog(this,
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    // Format and set the selected date in EditText
+                    // FORMAT AND SET THE SELECTED DATE IN EDIT-TEXT
                     val formattedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
                     dateOfBirthEditText.setText(formattedDate)
                 }, year, month, day)
@@ -123,7 +125,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    // Function to handle sign-up logic
+    // FUNCTION TO HANDLE SIGN-UP LOGIC
     private fun handleSignUp(
         userNameEditText: EditText,
         emailEditText: EditText,
@@ -132,7 +134,7 @@ class SignUpActivity : AppCompatActivity() {
         dateOfBirthEditText: EditText,
         genderSpinner: Spinner
     ) {
-        // Retrieve input values
+        // RETRIEVE INPUT VALUES
         val userName = userNameEditText.text.toString()
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
@@ -140,28 +142,28 @@ class SignUpActivity : AppCompatActivity() {
         val dateOfBirth = dateOfBirthEditText.text.toString()
         val gender = genderSpinner.selectedItem.toString()
 
-        // Check if all fields are filled
+        // CHECK IF ALL FIELDS ARE FILLED
         if (userName != "" && email != "" && password != "" &&
             phoneNumber != "" && dateOfBirth != "" && gender != "") {
 
-            // Call sign-up method from API service
+            // CALL SIGN-UP METHOD FROM API SERVICE
             customerApiService.signUp(Customer(userName, email, password, phoneNumber, dateOfBirth, gender)) { response ->
                 runOnUiThread {
-                    // Show feedback based on response
+                    // DISPLAY FEEDBACK BASED ON RESPONSE
                     if (response != null) {
-                        Toast.makeText(this, "Sign Up successful", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign Up Successful", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(this, "Sign Up failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign Up Failed", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         } else {
-            // Alert user to fill all fields
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            // ALERT USER TO FILL ALL FIELDS
+            Toast.makeText(this, "Please Fill All Fields", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Function to handle sign-in navigation
+    // FUNCTION TO HANDLE SIGN-IN NAVIGATION
     private fun handleNavigation(){
         val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)

@@ -19,23 +19,25 @@ import com.example.ead_mobile_application__native.model.SignIn
 import com.example.ead_mobile_application__native.service.CustomerApiService
 
 class SignInActivity : AppCompatActivity() {
-    // Instance of the customer API service
+    // INSTANCE OF THE CUSTOMER API SERVICE
     private val customerApiService = CustomerApiService()
 
-    // Track password visibility status
+    // TRACK PASSWORD VISIBILITY STATUS
     private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_sign_in)
+
+        // HANDLE WINDOW INSETS FOR EDGE-TO-EDGE DISPLAY
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.signInActivity)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Initialize views
+        // INITIALIZE VIEWS
         val emailEditText = findViewById<EditText>(R.id.siEmail)
         val passwordEditText = findViewById<EditText>(R.id.siPassword)
 
@@ -43,72 +45,70 @@ class SignInActivity : AppCompatActivity() {
         val btnSignIn = findViewById<Button>(R.id.siBtnSignIn)
         val txtSignUp = findViewById<TextView>(R.id.siSignUp)
 
-        // Set up password visibility toggle functionality
+        // SET UP PASSWORD VISIBILITY TOGGLE FUNCTIONALITY
         setupPasswordToggle(passwordEditText, passwordToggle)
 
-        // Handle sign-up button click
+        // HANDLE SIGN-IN BUTTON CLICK
         btnSignIn.setOnClickListener {
             handleSignIn(emailEditText, passwordEditText)
         }
 
-        // Handle sign-up text click
+        // HANDLE SIGN-UP TEXT CLICK
         txtSignUp.setOnClickListener {
             handleNavigation()
         }
     }
 
-    // Function to set up password visibility toggle
+    // FUNCTION TO SET UP PASSWORD VISIBILITY TOGGLE
     private fun setupPasswordToggle(passwordEditText: EditText, passwordToggle: ImageView) {
         passwordToggle.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
             if (isPasswordVisible) {
-                // Show password
+                // SHOW PASSWORD
                 passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 passwordToggle.setImageResource(R.drawable.ic_close_eye) // Closed eye icon
             } else {
-                // Hide password
+                // HIDE PASSWORD
                 passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 passwordToggle.setImageResource(R.drawable.ic_open_eye) // Open eye icon
             }
-            // Move cursor to the end of the text
+            // MOVE CURSOR TO THE END OF THE TEXT
             passwordEditText.setSelection(passwordEditText.text.length)
         }
     }
 
-    // Function to handle sign-in logic
-    private fun handleSignIn(
-        emailEditText: EditText,
-        passwordEditText: EditText,
-    ) {
-        // Retrieve input values
+    // FUNCTION TO HANDLE SIGN-IN LOGIC
+    private fun handleSignIn(emailEditText: EditText, passwordEditText: EditText) {
+        // RETRIEVE INPUT VALUES
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
-        // Check if all fields are filled
+        // CHECK IF BOTH FIELDS ARE FILLED
         if (email != "" && password != "") {
-            // Call sign-in method from API service
+
+            // CALL SIGN-IN METHOD FROM API SERVICE
             customerApiService.signIn(SignIn(email, password)) { response ->
                 runOnUiThread {
-                    // Show feedback based on response
+                    // DISPLAY FEEDBACK BASED ON RESPONSE
                     if (response != null) {
-                        Toast.makeText(this, "Sign Up successful", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign In Successful", Toast.LENGTH_SHORT).show()
 
                         val intent = Intent(this, HomeActivity::class.java)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this, "Sign Up failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         } else {
-            // Alert user to fill all fields
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            // ALERT USER TO FILL ALL FIELDS
+            Toast.makeText(this, "Please Fill All Fields", Toast.LENGTH_SHORT).show()
         }
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
     }
 
-    // Function to handle sign-up navigation
+    // FUNCTION TO HANDLE SIGN-UP NAVIGATION
     private fun handleNavigation(){
         val intent = Intent(this, SignUpActivity::class.java)
         startActivity(intent)

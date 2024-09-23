@@ -51,12 +51,14 @@
                 android:textColorHint="@color/black80"
                 android:paddingHorizontal="6dp"
                 android:minHeight="48dp"
+                android:autofillHints="@null"
                 android:background="@android:color/transparent" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_user"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="@string/user_icon"
                 app:tint="@android:color/black" />
         </LinearLayout>
@@ -81,6 +83,7 @@
                 android:textColor="@color/black20"
                 android:textColorHint="@color/black80"
                 android:paddingHorizontal="6dp"
+                android:autofillHints="@null"
                 android:minHeight="48dp"
                 android:background="@android:color/transparent" />
 
@@ -88,6 +91,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_email"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="@string/email_icon"
                 app:tint="@android:color/black" />
         </LinearLayout>
@@ -112,6 +116,7 @@
                 android:textColor="@color/black20"
                 android:textColorHint="@color/black80"
                 android:paddingHorizontal="6dp"
+                android:autofillHints="@null"
                 android:minHeight="48dp"
                 android:background="@android:color/transparent" />
 
@@ -120,6 +125,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_open_eye"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="@string/password_eye_icon"
                 app:tint="@android:color/black"
                 android:clickable="true"
@@ -147,12 +153,14 @@
                 android:textColorHint="@color/black80"
                 android:paddingHorizontal="6dp"
                 android:minHeight="48dp"
+                android:autofillHints="@null"
                 android:background="@android:color/transparent" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_telephone"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="@string/phone_icon"
                 app:tint="@android:color/black" />
         </LinearLayout>
@@ -178,6 +186,8 @@
                 android:paddingHorizontal="6dp"
                 android:minHeight="48dp"
                 android:background="@android:color/transparent"
+                android:autofillHints="@null"
+                android:inputType="date"
                 android:focusable="true"
                 android:clickable="true" />
 
@@ -185,6 +195,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_calendar"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="@string/calender_icon"
                 app:tint="@android:color/black" />
         </LinearLayout>
@@ -198,15 +209,16 @@
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
-        <Spinner
-            android:id="@+id/suGender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/select_gender"
-            android:textColor="@color/black20"
-            android:textColorHint="@color/black80"
-            android:paddingHorizontal="6dp"
-            android:minHeight="48dp" />
+
+            <Spinner
+                android:id="@+id/suGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/select_gender"
+                android:textColor="@color/black20"
+                android:textColorHint="@color/black80"
+                android:paddingHorizontal="6dp"
+                android:minHeight="48dp" />
         </LinearLayout>
 
         <!-- Sign Up Button -->
@@ -234,6 +246,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                android:minHeight="48dp"
                 android:fontFamily="@font/roboto_regular" />
 
             <TextView
@@ -246,6 +259,7 @@
                 android:textSize="16sp"
                 android:focusable="true"
                 android:clickable="true"
+                android:minHeight="48dp"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
 
