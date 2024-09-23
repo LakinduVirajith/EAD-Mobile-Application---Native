@@ -61,6 +61,7 @@ class ProductAdapter(private var products: List<Product>) : RecyclerView.Adapter
             // CREATE AN INTENT TO START THE PRODUCT DETAILS ACTIVITY OR FRAGMENT
             val context = holder.itemView.context
             val intent = Intent(context, ProductDetailsActivity::class.java).apply {
+                putExtra("product_id", product.id)
                 putExtra("product_name", product.name)
                 putExtra("product_price", product.price)
                 putExtra("product_description", product.description)

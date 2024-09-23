@@ -46,6 +46,7 @@ class HomeActivity : AppCompatActivity() {
     // SAMPLE PRODUCT LIST
     private var productList = listOf(
         Product(
+            id = "00001",
             name = "Product 1",
             price = "$10",
             description = "High-quality product with excellent features.",
@@ -55,6 +56,7 @@ class HomeActivity : AppCompatActivity() {
             stockQuantity = 100
         ),
         Product(
+            id = "00002",
             name = "Product 2",
             price = "$15",
             description = "Durable and reliable product for everyday use.",
@@ -64,6 +66,7 @@ class HomeActivity : AppCompatActivity() {
             stockQuantity = 50
         ),
         Product(
+            id = "00003",
             name = "Product 3",
             price = "$20",
             description = "Stylish design with great functionality.",
@@ -73,6 +76,7 @@ class HomeActivity : AppCompatActivity() {
             stockQuantity = 75
         ),
         Product(
+            id = "00004",
             name = "Product 4",
             price = "$25",
             description = "Top-rated product with positive customer feedback.",
@@ -82,6 +86,7 @@ class HomeActivity : AppCompatActivity() {
             stockQuantity = 200
         ),
         Product(
+            id = "00005",
             name = "Product 5",
             price = "$30",
             description = "Affordable and reliable product for everyone.",
@@ -91,6 +96,7 @@ class HomeActivity : AppCompatActivity() {
             stockQuantity = 30
         ),
         Product(
+            id = "00006",
             name = "Product 6",
             price = "$35",
             description = "Latest model with advanced features.",
