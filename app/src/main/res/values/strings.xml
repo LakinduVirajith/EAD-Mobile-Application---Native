@@ -39,4 +39,9 @@
     <string name="new_password">New Password</string>
     <string name="deactivate_account">Deactivate Account</string>
     <string name="deactivate">Deactivate</string>
+
+    <!--   HOME ACTIVITY    -->
+    <string name="search">Search</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="banner_image">Banner Image</string>
 </resources>

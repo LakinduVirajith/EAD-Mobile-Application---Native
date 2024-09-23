@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import com.example.ead_mobile_application__native.screen.SignUpActivity
+import com.example.ead_mobile_application__native.screen.SignInActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,8 +12,8 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
-        // Start SignUpActivity
-        val intent = Intent(this, SignUpActivity::class.java)
+        // START SIGN-IN ACTIVITY
+        val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
         finish()
     }
