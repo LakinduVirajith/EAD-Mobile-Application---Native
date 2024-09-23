@@ -9,25 +9,76 @@
     android:background="@color/lightBackground"
     tools:context=".screen.HomeActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Home"
-        android:textSize="36sp"
-        android:textColor="@color/black"
-        android:layout_centerInParent="true" />
+        android:orientation="vertical"
+        android:padding="16dp" >
+
+        <!-- Search Field -->
+        <LinearLayout
+            android:id="@+id/hSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/edit_text_border"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:layout_marginBottom="24dp">
+
+            <EditText
+                android:id="@+id/hSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/search"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black20"
+                android:textColorHint="@color/black80"
+                android:paddingHorizontal="6dp"
+                android:minHeight="48dp"
+                android:autofillHints="@null"
+                android:background="@android:color/transparent" />
+
+            <ImageView
+                android:id="@+id/hSearchIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_search"
+                android:contentDescription="@string/search_icon"
+                app:tint="@android:color/black" />
+        </LinearLayout>
+
+        <!-- Banner Section -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/hBannerViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Product List Section -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hProductRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="108dp"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bottomNavigationView"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_background"
+        android:background="@drawable/nav_bottom_background"
         android:layout_margin="24dp"
         android:elevation="2dp"
         app:menu="@menu/bottom_menu"
         app:itemIconSize="28dp"
-        app:itemIconTint="@drawable/item_selector"
+        app:itemIconTint="@drawable/nav_item_selector"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled" />
 

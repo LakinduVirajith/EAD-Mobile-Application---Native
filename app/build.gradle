@@ -36,23 +36,27 @@ android {
 }
 
 dependencies {
-    // AndroidX and Material components
+    // AndroidX core libraries for Android functionality and backward compatibility
     implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.13.0-alpha06'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    // Navigation components
+    // Navigation components for managing UI navigation in a modular way
     implementation 'androidx.navigation:navigation-fragment-ktx:2.8.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.8.1'
     implementation 'androidx.activity:activity-ktx:1.9.2'
     implementation 'androidx.activity:activity:1.9.2'
 
-    // Testing libraries
+    // Testing libraries for unit tests and Android UI tests
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
     // Networking library
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    // Gson library for JSON parsing and serialization
+    implementation 'com.google.code.gson:gson:2.10.1'
+    // Glide library for image loading and caching
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
 }
