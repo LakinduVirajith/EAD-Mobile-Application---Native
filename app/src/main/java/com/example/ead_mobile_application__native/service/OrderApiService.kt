@@ -25,8 +25,28 @@ class OrderApiService {
             .toRequestBody("application/json; charset=utf-8".toMediaType())
 
         val request = Request.Builder()
-            .url("http://BACKEND_SERVER_URL/api/v1/order")
+            .url("http://BACKEND_SERVER_URL/api/v1/order/add")
             .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callback(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                callback(response.body?.string())
+            }
+        })
+    }
+
+    // SERVICE FUNCTION TO GET ORDERS
+    fun fetchOrders(callback: (String?) -> Unit) {
+        val url = "http://BACKEND_SERVER_URL/api/v1/order"
+
+        val request = Request.Builder()
+            .url(url)
+            .get()
             .build()
 
         client.newCall(request).enqueue(object : Callback {
