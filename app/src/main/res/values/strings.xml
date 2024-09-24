@@ -44,4 +44,13 @@
     <string name="search">Search</string>
     <string name="search_icon">Search Icon</string>
     <string name="banner_image">Banner Image</string>
+
+    <!--   PRODUCT DETAILS ACTIVITY    -->
+    <string name="product_price_format">$%s</string>
+    <string name="price">Price:</string>
+    <string name="category">Category:</string>
+    <string name="stock_quantity">Stock Quantity:</string>
+    <string name="rating">Rating:</string>
+    <string name="cart_icon">Cart Icon</string>
+    <string name="product_image">Product Image</string>
 </resources>

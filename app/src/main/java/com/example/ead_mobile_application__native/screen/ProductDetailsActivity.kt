@@ -72,6 +72,31 @@ class ProductDetailsActivity : AppCompatActivity() {
         val productImageView: ImageView = findViewById(R.id.pdProductImage)
         val productImageResId = intent.getIntExtra("product_image", -1)
         productImageView.setImageResource(productImageResId)
+
+        // GET THE PRODUCT DESCRIPTION FROM INTENT AND SET THE PRODUCT DESCRIPTION
+        val productDescriptionTextView: TextView = findViewById(R.id.pdProductDescription)
+        val productDescription = intent.getStringExtra("product_description")
+        productDescriptionTextView.text = productDescription
+
+        // GET THE PRODUCT PRICE FROM INTENT AND SET THE PRODUCT PRICE
+        val productPriceTextView: TextView = findViewById(R.id.pdProductPrice)
+        val productPrice = intent.getDoubleExtra("product_price", 0.0)
+        productPriceTextView.text = getString(R.string.product_price_format, productPrice.toString())
+
+        // GET THE PRODUCT CATEGORY FROM INTENT AND SET THE PRODUCT CATEGORY
+        val productCategoryTextView: TextView = findViewById(R.id.pdProductCategory)
+        val productCategory = intent.getStringExtra("product_category")
+        productCategoryTextView.text = productCategory
+
+        // GET THE PRODUCT STOCK QUANTITY FROM INTENT AND SET THE PRODUCT STOCK QUANTITY
+        val productStockQuantityTextView: TextView = findViewById(R.id.pdProductStockQuantity)
+        val productStockQuantity = intent.getIntExtra("product_stock_quantity", 0)
+        productStockQuantityTextView.text = productStockQuantity.toString()
+
+        // GET THE PRODUCT RATING FROM INTENT AND SET THE PRODUCT RATING
+        val productRatingTextView: TextView = findViewById(R.id.pdProductRating)
+        val productRating = intent.getFloatExtra("product_rating", 0.0f)
+        productRatingTextView.text = productRating.toString()
     }
 
     // FUNCTION TO HANDLE CART LOGIC

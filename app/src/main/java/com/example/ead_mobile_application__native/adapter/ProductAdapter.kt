@@ -51,7 +51,7 @@ class ProductAdapter(private var products: List<Product>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = products[position]
         holder.productName.text = product.name
-        holder.productPrice.text = product.price
+        holder.productPrice.text = holder.itemView.context.getString(R.string.product_price_format, product.price.toString())
         Glide.with(holder.itemView.context)
             .load(product.imageResId)
             .into(holder.productImage)
