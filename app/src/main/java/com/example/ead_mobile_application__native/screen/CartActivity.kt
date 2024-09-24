@@ -38,7 +38,7 @@ class CartActivity : AppCompatActivity() {
     private val cartApiService = CartApiService()
     private val orderApiService = OrderApiService()
 
-    // SAMPLE PRODUCT LIST
+    // SAMPLE CART LIST
     private var cartList = listOf(
         Cart(
             id = "00001",
@@ -79,7 +79,7 @@ class CartActivity : AppCompatActivity() {
         }
 
         // FIND UI COMPONENTS BY ID
-        cartRecyclerView = findViewById(R.id.cCartRecyclerView)
+        cartRecyclerView = findViewById(R.id.cRecyclerView)
         layoutView = findViewById(R.id.cLayoutView)
         totalPriceText = findViewById(R.id.cTotalPriceText)
         placeOrderButton = findViewById(R.id.cBtnPlaceOrder)
@@ -178,7 +178,6 @@ class CartActivity : AppCompatActivity() {
             val orderItems = cartList.map { cartItem ->
                 OrderItem(
                     id = cartItem.id,
-                    totalPrice = cartItem.price * cartItem.quantity,
                     quantity = cartItem.quantity
                 )
             }

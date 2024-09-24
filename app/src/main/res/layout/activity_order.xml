@@ -7,15 +7,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/LightGray"
-    tools:context=".screen.OrderActivity">
+    tools:context=".screen.OrderActivity" >
 
+    <LinearLayout
+        android:id="@+id/cLayoutView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginBottom="108dp" >
+
+        <!-- Order List View -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/oRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+
+    <!-- Empty Cart Text -->
     <TextView
+        android:id="@+id/oEmptyOrderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order"
-        android:textSize="36sp"
+        android:text="@string/order_is_empty"
+        android:paddingBottom="108dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_centerInParent="true"
         android:textColor="@color/black"
-        android:layout_centerInParent="true" />
+        android:visibility="gone" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
@@ -30,5 +52,4 @@
         app:itemIconTint="@drawable/nav_item_selector"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled" />
-
 </RelativeLayout>

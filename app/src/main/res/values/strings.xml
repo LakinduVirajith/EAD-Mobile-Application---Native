@@ -55,7 +55,15 @@
     <string name="product_image">Product Image</string>
 
     <!--   CART ACTIVITY    -->
-    <string name="total_price">Total Price:</string>
+    <string name="total_price">Total Price: </string>
     <string name="place_order">Place Order</string>
-    <string name="cart_is_empty">Cart is Empty</string>
+    <string name="cart_is_empty">Cart is Currently Empty</string>
+
+    <!--   ORDER ACTIVITY    -->
+    <string name="order_id_format">#%06d</string>
+    <string name="order_id">Order ID: </string>
+    <string name="date">Date: </string>
+    <string name="status">Status: </string>
+    <string name="order_is_empty">Order List is Empty</string>
+    <string name="order_image">Order Image</string>
 </resources>

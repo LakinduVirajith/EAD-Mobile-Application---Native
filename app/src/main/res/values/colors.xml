@@ -12,6 +12,9 @@
     <color name="primeBlue">#007BFF</color>
     <color name="primeRed">#DC3545</color>
     <color name="primeOrange">#FD7E14</color>
+    <color name="primeYellow">#FFC107</color>
+    <color name="primePurple">#6F42C1</color>
+    <color name="primeGray">#9E9E9E</color>
 
     <color name="Gray">#6C757D</color>
     <color name="DarkGray">#343A40</color>

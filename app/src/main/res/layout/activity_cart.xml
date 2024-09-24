@@ -18,7 +18,7 @@
 
         <!-- Cart List View -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cCartRecyclerView"
+            android:id="@+id/cRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
