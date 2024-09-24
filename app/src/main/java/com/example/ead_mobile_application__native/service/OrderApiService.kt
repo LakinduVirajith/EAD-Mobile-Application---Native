@@ -21,7 +21,8 @@ class OrderApiService {
         val requestBodyJson = gson.toJson(order)
 
         // CREATE THE REQUEST BODY WITH JSON TYPE
-        val requestBody = requestBodyJson.toRequestBody("application/json; charset=utf-8".toMediaType())
+        val requestBody = requestBodyJson
+            .toRequestBody("application/json; charset=utf-8".toMediaType())
 
         val request = Request.Builder()
             .url("http://BACKEND_SERVER_URL/api/v1/order")

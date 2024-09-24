@@ -2,10 +2,10 @@ package com.example.ead_mobile_application__native.service
 
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
@@ -24,10 +24,8 @@ class CartApiService {
         }
 
         // CREATE THE REQUEST BODY
-        val requestBody = RequestBody.create(
-            "application/json; charset=utf-8".toMediaType(),
-            jsonBody.toString()
-        )
+        val requestBody = jsonBody.toString()
+            .toRequestBody("application/json; charset=utf-8".toMediaType())
 
         // BUILD THE REQUEST
         val request = Request.Builder()
@@ -79,10 +77,8 @@ class CartApiService {
             put("productId", productId)
         }
 
-        val requestBody = RequestBody.create(
-            "application/json; charset=utf-8".toMediaType(),
-            jsonBody.toString()
-        )
+        val requestBody = jsonBody.toString()
+            .toRequestBody("application/json; charset=utf-8".toMediaType())
 
         val request = Request.Builder()
             .url(url)
@@ -109,10 +105,8 @@ class CartApiService {
             put("productId", productId)
         }
 
-        val requestBody = RequestBody.create(
-            "application/json; charset=utf-8".toMediaType(),
-            jsonBody.toString()
-        )
+        val requestBody = jsonBody.toString()
+            .toRequestBody("application/json; charset=utf-8".toMediaType())
 
         val request = Request.Builder()
             .url(url)
@@ -128,9 +122,5 @@ class CartApiService {
                 callback(response.body?.string())
             }
         })
-    }
-
-    private fun String.toMediaType(): MediaType? {
-        return this.toMediaType()
     }
 }
