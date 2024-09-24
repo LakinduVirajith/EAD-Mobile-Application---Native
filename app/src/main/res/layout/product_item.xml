@@ -16,7 +16,7 @@
         android:background="@color/white" >
 
         <ImageView
-            android:id="@+id/productImage"
+            android:id="@+id/hProductImage"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
@@ -24,7 +24,7 @@
             android:clipToOutline="true" />
 
         <TextView
-            android:id="@+id/productName"
+            android:id="@+id/hProductName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
@@ -32,10 +32,10 @@
             android:paddingTop="4dp" />
 
         <TextView
-            android:id="@+id/productPrice"
+            android:id="@+id/hProductPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_green_dark"
+            android:textColor="@color/primeGreen"
             android:textStyle="bold"
             android:textSize="14sp" />
 

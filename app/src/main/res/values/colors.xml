@@ -8,6 +8,12 @@
     <color name="black80">#FF808080</color>
     <color name="black100">#FFAAAAAA</color>
 
-    <color name="primeGreen">#44E165</color>
-    <color name="lightBackground">#FFFAFAFA</color>
+    <color name="primeGreen">#28A745</color>
+    <color name="primeBlue">#007BFF</color>
+    <color name="primeRed">#DC3545</color>
+    <color name="primeOrange">#FD7E14</color>
+
+    <color name="Gray">#6C757D</color>
+    <color name="DarkGray">#343A40</color>
+    <color name="LightGray">#F8F9FA</color>
 </resources>

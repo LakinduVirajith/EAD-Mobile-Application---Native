@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     android:padding="16dp"
-    android:background="@color/lightBackground"
+    android:background="@color/LightGray"
     app:layoutDescription="@xml/activity_sign_up_scene"
     tools:context=".screen.SignUpActivity">
 

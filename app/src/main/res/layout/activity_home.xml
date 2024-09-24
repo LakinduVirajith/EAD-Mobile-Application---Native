@@ -6,7 +6,7 @@
     android:id="@+id/homeActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightBackground"
+    android:background="@color/LightGray"
     tools:context=".screen.HomeActivity">
 
     <LinearLayout
@@ -64,9 +64,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="108dp"
             android:scrollbars="vertical" />
-
     </LinearLayout>
-
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
@@ -81,5 +79,4 @@
         app:itemIconTint="@drawable/nav_item_selector"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled" />
-
 </RelativeLayout>

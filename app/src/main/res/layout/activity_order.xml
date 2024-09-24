@@ -6,7 +6,7 @@
     android:id="@+id/orderActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightBackground"
+    android:background="@color/LightGray"
     tools:context=".screen.OrderActivity">
 
     <TextView

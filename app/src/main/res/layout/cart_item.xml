@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="2dp"
+    app:cardCornerRadius="12dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center"
+        android:background="@color/white" >
+
+        <!--    Product Image     -->
+        <ImageView
+            android:id="@+id/cProductImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/rounded_image"
+            android:clipToOutline="true" />
+
+        <!--    Product Details     -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp" >
+
+            <TextView
+                android:id="@+id/cProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black20"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/cProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primeGreen"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <!--    Quantity Selector     -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="8dp" >
+
+            <ImageView
+                android:id="@+id/cMinusIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/ic_minus" />
+
+            <TextView
+                android:id="@+id/cProductQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black20"
+                android:paddingHorizontal="12dp"
+                android:textStyle="bold"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:id="@+id/cPlusIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/ic_plus" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
