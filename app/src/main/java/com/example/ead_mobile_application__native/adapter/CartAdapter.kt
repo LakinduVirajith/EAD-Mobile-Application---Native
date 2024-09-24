@@ -59,7 +59,7 @@ class CartAdapter(private var items: List<Cart>) : RecyclerView.Adapter<CartAdap
             .load(item.imageResId)
             .into(holder.productImage)
         holder.productName.text = item.name
-        holder.productPrice.text = holder.itemView.context.getString(R.string.product_price_format, item.price.toString())
+        holder.productPrice.text = holder.itemView.context.getString(R.string.price_format, item.price)
         holder.productQuantity.text = item.quantity.toString()
 
         // SET CLICK LISTENER TO INGRESS QUANTITY

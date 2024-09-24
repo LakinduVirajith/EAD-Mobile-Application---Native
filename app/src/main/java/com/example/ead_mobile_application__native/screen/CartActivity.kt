@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsetsController
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.adapter.CartAdapter
 import com.example.ead_mobile_application__native.model.Cart
+import com.example.ead_mobile_application__native.model.OrderItem
 import com.example.ead_mobile_application__native.service.CartApiService
+import com.example.ead_mobile_application__native.service.OrderApiService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -24,12 +28,15 @@ import com.google.gson.reflect.TypeToken
 class CartActivity : AppCompatActivity() {
     // DECLARE VIEWS
     private lateinit var cartRecyclerView: RecyclerView
+    private lateinit var layoutView : LinearLayout
+    private lateinit var totalPriceText: TextView
     private lateinit var placeOrderButton: Button
     private lateinit var emptyCartText: TextView
     private lateinit var cartAdapter: CartAdapter
 
     // API SERVICE INSTANCE
     private val cartApiService = CartApiService()
+    private val orderApiService = OrderApiService()
 
     // SAMPLE PRODUCT LIST
     private var cartList = listOf(
@@ -73,6 +80,8 @@ class CartActivity : AppCompatActivity() {
 
         // FIND UI COMPONENTS BY ID
         cartRecyclerView = findViewById(R.id.cCartRecyclerView)
+        layoutView = findViewById(R.id.cLayoutView)
+        totalPriceText = findViewById(R.id.cTotalPriceText)
         placeOrderButton = findViewById(R.id.cBtnPlaceOrder)
         emptyCartText = findViewById(R.id.cEmptyCartText)
 
@@ -82,7 +91,7 @@ class CartActivity : AppCompatActivity() {
         // SETUP CART LIST AND ADAPTER
         setupCartList()
 
-        // HANDLE PLACE ORDER BUTTON CLICK
+        // SET UP CLICK LISTENER FOR PLACE ORDER BUTTON
         placeOrderButton.setOnClickListener {
             handlePlaceOrder()
         }
@@ -137,14 +146,22 @@ class CartActivity : AppCompatActivity() {
         cartRecyclerView.adapter = cartAdapter
         cartRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        // CALCULATE TOTAL PRICE FROM CART LIST
+        if (cartList.isNotEmpty()) {
+            var calTotalPrice = 0.00
+            cartList.map { cartItem ->
+                calTotalPrice += cartItem.price * cartItem.quantity
+            }
+            totalPriceText.text = getString(R.string.price_format, calTotalPrice)
+        }
+
+        // HANDLE CART VISIBILITY BASED ON ITEMS IN THE CART
         if (cartList.isEmpty()) {
+            layoutView.visibility = View.GONE
             emptyCartText.visibility = View.VISIBLE
-            cartRecyclerView.visibility = View.GONE
-            placeOrderButton.visibility = View.GONE
         }else{
+            layoutView.visibility = View.VISIBLE
             emptyCartText.visibility = View.GONE
-            cartRecyclerView.visibility = View.VISIBLE
-            placeOrderButton.visibility = View.VISIBLE
         }
     }
 
@@ -156,6 +173,26 @@ class CartActivity : AppCompatActivity() {
 
     // FUNCTION TO HANDLE PLACE ORDER LOGIC
     private fun handlePlaceOrder(){
+        if(cartList.isNotEmpty()){
+            // CONVERT CART LIST TO ORDER ITEM LIST
+            val orderItems = cartList.map { cartItem ->
+                OrderItem(
+                    id = cartItem.id,
+                    totalPrice = cartItem.price * cartItem.quantity,
+                    quantity = cartItem.quantity
+                )
+            }
 
+            // PLACE THE ORDER USING THE ORDER ITEM LIST
+            orderApiService.placeOrder(orderItems) { response ->
+                if (response != null) {
+                    Toast.makeText(this, "Order Placed Successful", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, OrderActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Order Placed Failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }

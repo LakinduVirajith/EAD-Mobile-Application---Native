@@ -83,7 +83,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         // GET THE PRODUCT PRICE FROM INTENT AND SET THE PRODUCT PRICE
         val productPriceTextView: TextView = findViewById(R.id.pdProductPrice)
         val productPrice = intent.getDoubleExtra("product_price", 0.0)
-        productPriceTextView.text = getString(R.string.product_price_format, productPrice.toString())
+        productPriceTextView.text = getString(R.string.price_format, productPrice)
 
         // GET THE PRODUCT CATEGORY FROM INTENT AND SET THE PRODUCT CATEGORY
         val productCategoryTextView: TextView = findViewById(R.id.pdProductCategory)

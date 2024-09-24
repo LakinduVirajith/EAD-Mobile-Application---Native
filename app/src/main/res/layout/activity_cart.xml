@@ -10,18 +10,55 @@
     tools:context=".screen.CartActivity">
 
     <LinearLayout
+        android:id="@+id/cLayoutView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp" >
 
-        <!-- Cart List Section -->
+        <!-- Cart List View -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cCartRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="32dp"
             android:scrollbars="vertical" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginVertical="18dp"
+            android:layout_height="3dp"
+            android:background="@color/black20" />
+
+        <!-- Total Price -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/total_price"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black20" />
+
+            <TextView
+                android:id="@+id/cTotalPriceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black20" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginVertical="18dp"
+            android:layout_height="3dp"
+            android:background="@color/black20" />
 
         <!-- Place Order Button -->
         <Button

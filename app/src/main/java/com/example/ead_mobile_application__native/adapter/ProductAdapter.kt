@@ -54,7 +54,7 @@ class ProductAdapter(private var products: List<Product>) : RecyclerView.Adapter
             .load(product.imageResId)
             .into(holder.productImage)
         holder.productName.text = product.name
-        holder.productPrice.text = holder.itemView.context.getString(R.string.product_price_format, product.price.toString())
+        holder.productPrice.text = holder.itemView.context.getString(R.string.price_format, product.price)
 
         // SET CLICK LISTENER TO NAVIGATE TO PRODUCT DETAILS
         holder.itemView.setOnClickListener {
