@@ -15,9 +15,9 @@ import com.example.ead_mobile_application__native.screen.ProductDetailsActivity
 class ProductAdapter(private var products: List<Product>) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productName: TextView = itemView.findViewById(R.id.productName)
-        val productPrice: TextView = itemView.findViewById(R.id.productPrice)
-        val productImage: ImageView = itemView.findViewById(R.id.productImage)
+        val productImage: ImageView = itemView.findViewById(R.id.hProductImage)
+        val productName: TextView = itemView.findViewById(R.id.hProductName)
+        val productPrice: TextView = itemView.findViewById(R.id.hProductPrice)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -50,11 +50,11 @@ class ProductAdapter(private var products: List<Product>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = products[position]
-        holder.productName.text = product.name
-        holder.productPrice.text = holder.itemView.context.getString(R.string.product_price_format, product.price.toString())
         Glide.with(holder.itemView.context)
             .load(product.imageResId)
             .into(holder.productImage)
+        holder.productName.text = product.name
+        holder.productPrice.text = holder.itemView.context.getString(R.string.price_format, product.price)
 
         // SET CLICK LISTENER TO NAVIGATE TO PRODUCT DETAILS
         holder.itemView.setOnClickListener {
@@ -73,8 +73,6 @@ class ProductAdapter(private var products: List<Product>) : RecyclerView.Adapter
             context.startActivity(intent)
         }
     }
-
-
 
     override fun getItemCount(): Int = products.size
 }

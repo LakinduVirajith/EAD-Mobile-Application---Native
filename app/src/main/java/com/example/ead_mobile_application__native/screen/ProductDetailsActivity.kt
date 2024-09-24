@@ -11,11 +11,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ead_mobile_application__native.R
+import com.example.ead_mobile_application__native.service.CartApiService
 import com.example.ead_mobile_application__native.service.ProductApiService
 
 class ProductDetailsActivity : AppCompatActivity() {
     // API SERVICE INSTANCE
     private val productApiService = ProductApiService()
+    private val cartApiService = CartApiService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +83,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         // GET THE PRODUCT PRICE FROM INTENT AND SET THE PRODUCT PRICE
         val productPriceTextView: TextView = findViewById(R.id.pdProductPrice)
         val productPrice = intent.getDoubleExtra("product_price", 0.0)
-        productPriceTextView.text = getString(R.string.product_price_format, productPrice.toString())
+        productPriceTextView.text = getString(R.string.price_format, productPrice)
 
         // GET THE PRODUCT CATEGORY FROM INTENT AND SET THE PRODUCT CATEGORY
         val productCategoryTextView: TextView = findViewById(R.id.pdProductCategory)
@@ -105,7 +107,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         startActivity(intent)
         return
 
-        productApiService.cartProduct(productId) { response ->
+        cartApiService.cartProduct(productId) { response ->
             runOnUiThread {
                 // DISPLAY FEEDBACK BASED ON RESPONSE
                 if (response != null) {

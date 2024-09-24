@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screen.ProductDetailsActivity"
-    android:background="@color/lightBackground">
+    android:background="@color/LightGray">
 
     <!-- App Bar -->
     <com.google.android.material.appbar.AppBarLayout
