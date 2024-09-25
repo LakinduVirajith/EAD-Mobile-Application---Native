@@ -15,7 +15,7 @@ class VendorApiService {
 
     // SERVICE FUNCTION TO ADD RANKING TO THE VENDOR
     fun addRanking(comment: String, rating: Int, callback: (String?) -> Unit) {
-        // CONSTRUCT THE URL FOR ADDING RANKING TO THE VENDOR
+        // CONSTRUCT THE URL
         val url = "http://BACKEND_SERVER_URL/api/v1/ranking/vendor/add"
 
         // CREATE THE JSON OBJECT FOR THE REQUEST BODY

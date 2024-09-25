@@ -75,6 +75,11 @@
     <string name="order_is_empty">Order List is Empty</string>
     <string name="order_image">Order Image</string>
 
+    <!--   ORDER DETAILS ACTIVITY    -->
+    <string name="name">Name: </string>
+    <string name="order_date">Order Date: </string>
+    <string name="order_status">Order Status: </string>
+
     <!--   VENDOR RANKING ACTIVITY    -->
     <string name="vendor_ranking">Vendor Ranking</string>
     <string name="add_comment">Add Comment</string>

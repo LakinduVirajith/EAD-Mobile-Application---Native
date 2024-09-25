@@ -1,5 +1,6 @@
 package com.example.ead_mobile_application__native.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.model.Cart
+import com.example.ead_mobile_application__native.screen.ProductDetailsActivity
 import com.example.ead_mobile_application__native.service.CartApiService
 
 class CartAdapter(private var items: List<Cart>) : RecyclerView.Adapter<CartAdapter.CartViewHolder>(){
@@ -67,7 +69,7 @@ class CartAdapter(private var items: List<Cart>) : RecyclerView.Adapter<CartAdap
 
         // SET CLICK LISTENER TO INGRESS QUANTITY
         holder.plusIcon.setOnClickListener {
-            cartApiService.cartProductPlus(item.id) { response ->
+            cartApiService.cartProductPlus(item.productId) { response ->
                 if (response != null) {
                     item.quantity += 1
                     notifyItemChanged(position)
@@ -76,12 +78,20 @@ class CartAdapter(private var items: List<Cart>) : RecyclerView.Adapter<CartAdap
         }
         // SET CLICK LISTENER TO DECREES QUANTITY
         holder.minusIcon.setOnClickListener {
-            cartApiService.cartProductMinus(item.id) { response ->
+            cartApiService.cartProductMinus(item.productId) { response ->
                 if (response != null) {
                     item.quantity -= 1
                     notifyItemChanged(position)
                 }
             }
+        }
+        // SET CLICK LISTENER TO NAVIGATE TO PRODUCT DETAILS
+        holder.productImage.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, ProductDetailsActivity::class.java).apply {
+                putExtra("product_id", item.productId)
+            }
+            context.startActivity(intent)
         }
     }
 

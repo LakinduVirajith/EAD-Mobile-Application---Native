@@ -15,7 +15,7 @@ class CartApiService {
 
     // SERVICE FUNCTION TO ADD PRODUCT TO CARD
     fun addCart(productId: Int, size: String, color: String, quantity: Int, callback: (String?) -> Unit) {
-        // CONSTRUCT THE URL FOR ADDING TO THE CART
+        // CONSTRUCT THE URL
         val url = "http://BACKEND_SERVER_URL/api/v1/cart/add"
 
         // CREATE THE JSON OBJECT FOR THE REQUEST BODY
@@ -101,7 +101,6 @@ class CartApiService {
 
     // SERVICE FUNCTION TO DECREES QUANTITY
     fun cartProductMinus(productId: String, callback: (String?) -> Unit) {
-        // CONSTRUCT THE URL WITH THE SEARCH QUERY
         val url = "http://BACKEND_SERVER_URL/api/v1/cart/minus"
 
         val jsonBody = JSONObject().apply {

@@ -41,7 +41,7 @@ class CartActivity : AppCompatActivity() {
     // SAMPLE CART LIST
     private var cartList = listOf(
         Cart(
-            id = "1",
+            productId = "1",
             name = "Casual Cotton T-Shirt",
             price = 19.99,
             discount = 4.00,
@@ -49,7 +49,7 @@ class CartActivity : AppCompatActivity() {
             quantity = 1
         ),
         Cart(
-            id = "4",
+            productId = "4",
             name = "Classic Chino Pants",
             price = 34.99,
             discount = 7.00,
@@ -179,7 +179,7 @@ class CartActivity : AppCompatActivity() {
             // CONVERT CART LIST TO ORDER ITEM LIST
             val orderItems = cartList.map { cartItem ->
                 OrderItem(
-                    id = cartItem.id,
+                    productId = cartItem.productId,
                     quantity = cartItem.quantity
                 )
             }
