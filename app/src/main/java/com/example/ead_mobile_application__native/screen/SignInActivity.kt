@@ -1,12 +1,14 @@
 package com.example.ead_mobile_application__native.screen
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
+import android.view.WindowInsetsController
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -14,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ead_mobile_application__native.R
-import com.example.ead_mobile_application__native.model.Customer
 import com.example.ead_mobile_application__native.model.SignIn
 import com.example.ead_mobile_application__native.service.CustomerApiService
 
@@ -29,6 +30,16 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_sign_in)
+
+        // SET STATUS BAR ICONS TO LIGHT (BLACK) IN DARK THEME
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.decorView.windowInsetsController?.setSystemBarsAppearance(
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
+        } else {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
 
         // HANDLE WINDOW INSETS FOR EDGE-TO-EDGE DISPLAY
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.signInActivity)) { v, insets ->

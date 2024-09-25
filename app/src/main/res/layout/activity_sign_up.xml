@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     android:padding="16dp"
-    android:background="@color/lightBackground"
+    android:background="@color/LightGray"
     app:layoutDescription="@xml/activity_sign_up_scene"
     tools:context=".screen.SignUpActivity">
 
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -137,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -170,7 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -205,7 +205,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/edittext_border"
+            android:background="@drawable/edit_text_border"
             android:gravity="center_vertical"
             android:padding="8dp"
             android:layout_marginBottom="16dp">
@@ -214,11 +214,10 @@
                 android:id="@+id/suGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/select_gender"
-                android:textColor="@color/black20"
-                android:textColorHint="@color/black80"
+                android:minHeight="48dp"
                 android:paddingHorizontal="6dp"
-                android:minHeight="48dp" />
+                android:spinnerMode="dropdown"
+                android:prompt="@string/select_gender" />
         </LinearLayout>
 
         <!-- Sign Up Button -->

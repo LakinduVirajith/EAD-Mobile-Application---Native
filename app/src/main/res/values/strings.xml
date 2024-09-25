@@ -39,4 +39,51 @@
     <string name="new_password">New Password</string>
     <string name="deactivate_account">Deactivate Account</string>
     <string name="deactivate">Deactivate</string>
+
+    <!--   HOME ACTIVITY    -->
+    <string name="search">Search</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="banner_image">Banner Image</string>
+
+    <!--   PRODUCT DETAILS ACTIVITY    -->
+    <string name="price_format">$%.2f</string>
+    <string name="size">Size: </string>
+    <string name="select_size">"Select Size</string>
+    <string name="color">Color: </string>
+    <string name="select_color">"Select Color</string>
+    <string name="quantity">Quantity</string>
+    <string name="minus_icon">Minus Icon</string>
+    <string name="plus_icon">Plus Icon</string>
+    <string name="price">Price:</string>
+    <string name="discount_price">Discount Price</string>
+    <string name="category">Category: </string>
+    <string name="stock_quantity">Stock Quantity: </string>
+    <string name="rating">Rating: </string>
+    <string name="cart_icon">Cart Icon</string>
+    <string name="product_image">Product Image</string>
+
+    <!--   CART ACTIVITY    -->
+    <string name="total_price">Total Price: </string>
+    <string name="place_order">Place Order</string>
+    <string name="cart_is_empty">Cart is Currently Empty</string>
+
+    <!--   ORDER ACTIVITY    -->
+    <string name="order_id_format">#%06d</string>
+    <string name="order_id">Order ID: </string>
+    <string name="date">Date: </string>
+    <string name="status">Status: </string>
+    <string name="order_is_empty">Order List is Empty</string>
+    <string name="order_image">Order Image</string>
+
+    <!--   ORDER DETAILS ACTIVITY    -->
+    <string name="name">Name: </string>
+    <string name="order_date">Order Date: </string>
+    <string name="order_status">Order Status: </string>
+
+    <!--   VENDOR RANKING ACTIVITY    -->
+    <string name="vendor_ranking">Vendor Ranking</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="vendor_rating">Rating: </string>
+    <string name="send">send</string>
+    <string name="order_details">Order Details</string>
 </resources>

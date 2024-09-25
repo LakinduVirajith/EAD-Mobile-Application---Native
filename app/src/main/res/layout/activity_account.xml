@@ -6,7 +6,7 @@
     android:id="@+id/accountActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightBackground"
+    android:background="@color/LightGray"
     tools:context=".screen.AccountActivity">
 
     <ScrollView
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/edittext_border"
+                android:background="@drawable/edit_text_border"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:layout_marginBottom="16dp">
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/edittext_border"
+                android:background="@drawable/edit_text_border"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:layout_marginBottom="16dp">
@@ -137,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:background="@color/black20" />
 
 <!--    _____________________________________________________     -->
@@ -177,7 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/edittext_border"
+                android:background="@drawable/edit_text_border"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:layout_marginBottom="16dp">
@@ -211,7 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/edittext_border"
+                android:background="@drawable/edit_text_border"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:layout_marginBottom="16dp">
@@ -248,7 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/edittext_border"
+                android:background="@drawable/edit_text_border"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:layout_marginBottom="16dp">
@@ -295,7 +295,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:background="@color/black20" />
 
 <!--    _____________________________________________________     -->
@@ -335,7 +335,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/edittext_border"
+                android:background="@drawable/edit_text_border"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:layout_marginBottom="16dp">
@@ -379,7 +379,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:background="@color/black20" />
         </LinearLayout>
     </ScrollView>
@@ -389,13 +389,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/bottomNavigationView"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_background"
+        android:background="@drawable/nav_bottom_background"
         android:layout_margin="24dp"
         android:elevation="2dp"
         app:menu="@menu/bottom_menu"
         app:itemIconSize="32dp"
-        app:itemIconTint="@drawable/item_selector"
+        app:itemIconTint="@drawable/nav_item_selector"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled" />
-
 </RelativeLayout>

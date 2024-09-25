@@ -6,29 +6,49 @@
     android:id="@+id/orderActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightBackground"
-    tools:context=".screen.OrderActivity">
+    android:background="@color/LightGray"
+    tools:context=".screen.OrderActivity" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginBottom="108dp" >
+
+        <!-- Order List View -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/oRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+
+    <!-- Empty Cart Text -->
     <TextView
+        android:id="@+id/oEmptyOrderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order"
-        android:textSize="36sp"
+        android:text="@string/order_is_empty"
+        android:paddingBottom="108dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_centerInParent="true"
         android:textColor="@color/black"
-        android:layout_centerInParent="true" />
+        android:visibility="gone" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bottomNavigationView"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_background"
+        android:background="@drawable/nav_bottom_background"
         android:layout_margin="24dp"
         android:elevation="2dp"
         app:menu="@menu/bottom_menu"
         app:itemIconSize="32dp"
-        app:itemIconTint="@drawable/item_selector"
+        app:itemIconTint="@drawable/nav_item_selector"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled" />
-
 </RelativeLayout>
