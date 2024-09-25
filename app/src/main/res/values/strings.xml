@@ -56,9 +56,9 @@
     <string name="plus_icon">Plus Icon</string>
     <string name="price">Price:</string>
     <string name="discount_price">Discount Price</string>
-    <string name="category">Category:</string>
-    <string name="stock_quantity">Stock Quantity:</string>
-    <string name="rating">Rating:</string>
+    <string name="category">Category: </string>
+    <string name="stock_quantity">Stock Quantity: </string>
+    <string name="rating">Rating: </string>
     <string name="cart_icon">Cart Icon</string>
     <string name="product_image">Product Image</string>
 
@@ -74,4 +74,11 @@
     <string name="status">Status: </string>
     <string name="order_is_empty">Order List is Empty</string>
     <string name="order_image">Order Image</string>
+
+    <!--   VENDOR RANKING ACTIVITY    -->
+    <string name="vendor_ranking">Vendor Ranking</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="vendor_rating">Rating: </string>
+    <string name="send">send</string>
+    <string name="order_details">Order Details</string>
 </resources>

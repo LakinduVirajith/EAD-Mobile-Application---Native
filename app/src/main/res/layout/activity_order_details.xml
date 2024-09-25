@@ -39,7 +39,7 @@
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:paddingStart="2dp"
-                    android:paddingEnd="32dp"
+                    android:paddingEnd="64dp"
                     android:textColor="@android:color/white" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
