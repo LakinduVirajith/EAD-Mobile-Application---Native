@@ -89,8 +89,8 @@ class SignUpActivity : AppCompatActivity() {
     // FUNCTION TO SET UP THE GENDER SPINNER
     private fun setupGenderSpinner(genderSpinner: Spinner) {
         val genderOptions = arrayOf("Male", "Female", "Other")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderOptions)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, genderOptions)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         genderSpinner.adapter = adapter
     }
 

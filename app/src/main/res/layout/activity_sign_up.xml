@@ -214,11 +214,10 @@
                 android:id="@+id/suGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/select_gender"
-                android:textColor="@color/black20"
-                android:textColorHint="@color/black80"
+                android:minHeight="48dp"
                 android:paddingHorizontal="6dp"
-                android:minHeight="48dp" />
+                android:spinnerMode="dropdown"
+                android:prompt="@string/select_gender" />
         </LinearLayout>
 
         <!-- Sign Up Button -->

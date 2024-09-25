@@ -15,7 +15,6 @@ class ProductApiService {
 
     // SERVICE FUNCTION TO SEARCH PRODUCT
     fun searchProducts(value: String, callback: (String?) -> Unit) {
-        // CONSTRUCT THE URL WITH THE SEARCH QUERY
         val url = "http://BACKEND_SERVER_URL/api/v1/products?search=$value"
 
         val request = Request.Builder()
@@ -35,9 +34,28 @@ class ProductApiService {
     }
 
     // SERVICE FUNCTION TO GET HOME PRODUCTS
-    fun homeProducts(callback: (String?) -> Unit) {
-        // CONSTRUCT THE URL WITH THE SEARCH QUERY
+    fun fetchHomeProducts(callback: (String?) -> Unit) {
         val url = "http://BACKEND_SERVER_URL/api/v1/products"
+
+        val request = Request.Builder()
+            .url(url)
+            .get()
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callback(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                callback(response.body?.string())
+            }
+        })
+    }
+
+    // SERVICE FUNCTION TO GET PRODUCT DETAILS
+    fun fetchProductDetails(productId: String, callback: (String?) -> Unit) {
+        val url = "http://BACKEND_SERVER_URL/api/v1/product?search=$productId"
 
         val request = Request.Builder()
             .url(url)

@@ -137,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:background="@color/black20" />
 
 <!--    _____________________________________________________     -->
@@ -295,7 +295,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:background="@color/black20" />
 
 <!--    _____________________________________________________     -->
@@ -379,7 +379,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:background="@color/black20" />
         </LinearLayout>
     </ScrollView>
@@ -397,5 +397,4 @@
         app:itemIconTint="@drawable/nav_item_selector"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled" />
-
 </RelativeLayout>

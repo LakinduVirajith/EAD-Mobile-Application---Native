@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vendorRankingActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screen.VendorRankingActivity"
+    android:background="@color/LightGray">
+
+    <!-- App Bar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/vrToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:layout_scrollFlags="scroll|enterAlways" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- Order ID -->
+                <TextView
+                    android:id="@+id/vrOrderID"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="64dp"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="64dp"
+        android:padding="16dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp" >
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/vendor_ranking"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="36sp"
+                android:fontFamily="@font/fugaz_one_regular"
+                android:layout_marginBottom="32dp" />
+
+            <!-- Vendor Comment Field -->
+            <EditText
+                android:id="@+id/vrComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_comment"
+                android:autofillHints="@null"
+                android:inputType="textMultiLine"
+                android:minHeight="140dp"
+                android:background="@drawable/edit_text_border"
+                android:gravity="top"
+                android:padding="12dp"
+                android:textColor="@color/black20"
+                android:textColorHint="@color/black80" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal" >
+
+            <!-- Vendor Rating Field -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/vendor_rating"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:paddingStart="4dp"
+                android:paddingEnd="0dp"
+                android:textSize="20sp" />
+
+            <RatingBar
+                android:id="@+id/vrRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:rating="0.0"
+                android:progressDrawable="@drawable/rating_bar" />
+        </LinearLayout>
+
+        <!-- Send Button -->
+        <Button
+            android:id="@+id/vrBtnSend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:height="64dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_background" />
+
+        <!-- Order Details Button -->
+        <Button
+            android:id="@+id/vrBtnOrderDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/order_details"
+            android:layout_marginBottom="16dp"
+            android:height="64dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_background" />
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
