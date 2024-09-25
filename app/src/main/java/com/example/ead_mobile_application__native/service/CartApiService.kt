@@ -1,5 +1,6 @@
 package com.example.ead_mobile_application__native.service
 
+import com.example.ead_mobile_application__native.BuildConfig
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
@@ -16,7 +17,7 @@ class CartApiService {
     // SERVICE FUNCTION TO ADD PRODUCT TO CARD
     fun addCart(productId: Int, size: String, color: String, quantity: Int, callback: (String?) -> Unit) {
         // CONSTRUCT THE URL
-        val url = "http://BACKEND_SERVER_URL/api/v1/cart/add"
+        val url = "${BuildConfig.BASE_URL}/api/v1/cart/add"
 
         // CREATE THE JSON OBJECT FOR THE REQUEST BODY
         val jsonBody = JSONObject().apply {
@@ -54,7 +55,7 @@ class CartApiService {
 
     // SERVICE FUNCTION TO GET CART PRODUCT
     fun cartProducts(callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/cart"
+        val url = "${BuildConfig.BASE_URL}/api/v1/cart"
 
         val request = Request.Builder()
             .url(url)
@@ -74,7 +75,7 @@ class CartApiService {
 
     // SERVICE FUNCTION TO INGRESS QUANTITY
     fun cartProductPlus(productId: String, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/cart/plus"
+        val url = "${BuildConfig.BASE_URL}/api/v1/cart/plus"
 
         val jsonBody = JSONObject().apply {
             put("productId", productId)
@@ -101,7 +102,7 @@ class CartApiService {
 
     // SERVICE FUNCTION TO DECREES QUANTITY
     fun cartProductMinus(productId: String, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/cart/minus"
+        val url = "${BuildConfig.BASE_URL}/api/v1/cart/minus"
 
         val jsonBody = JSONObject().apply {
             put("productId", productId)

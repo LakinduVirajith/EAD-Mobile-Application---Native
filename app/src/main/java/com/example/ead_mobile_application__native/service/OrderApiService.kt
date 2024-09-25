@@ -1,5 +1,6 @@
 package com.example.ead_mobile_application__native.service
 
+import com.example.ead_mobile_application__native.BuildConfig
 import com.example.ead_mobile_application__native.model.OrderItem
 import com.google.gson.Gson
 import okhttp3.Call
@@ -17,7 +18,7 @@ class OrderApiService {
     // SERVICE FUNCTION TO PLACE ORDER
     fun placeOrder(order: List<OrderItem>, callback: (String?) -> Unit) {
         // CONSTRUCT THE URL
-        val url = "http://BACKEND_SERVER_URL/api/v1/order/add"
+        val url = "${BuildConfig.BASE_URL}/api/v1/order/add"
 
         // CONVERT THE LIST OF ORDERS TO JSON
         val gson = Gson()
@@ -47,7 +48,7 @@ class OrderApiService {
 
     // SERVICE FUNCTION TO GET ORDERS
     fun fetchOrders(callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/orders"
+        val url = "${BuildConfig.BASE_URL}/api/v1/orders"
 
         val request = Request.Builder()
             .url(url)
@@ -67,7 +68,7 @@ class OrderApiService {
 
     // SERVICE FUNCTION TO GET ORDER DETAILS
     fun fetchOrderDetails(orderId: Int, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/order/details/${orderId}"
+        val url = "${BuildConfig.BASE_URL}/api/v1/order/details/${orderId}"
 
         val request = Request.Builder()
             .url(url)
@@ -87,7 +88,7 @@ class OrderApiService {
 
     // SERVICE FUNCTION TO GET ORDER DETAILS
     fun fetchOrder(orderId: Int, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/order/${orderId}"
+        val url = "${BuildConfig.BASE_URL}/api/v1/order/${orderId}"
 
         val request = Request.Builder()
             .url(url)

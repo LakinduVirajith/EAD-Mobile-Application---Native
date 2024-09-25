@@ -1,10 +1,10 @@
 package com.example.ead_mobile_application__native.service
 
+import com.example.ead_mobile_application__native.BuildConfig
 import com.example.ead_mobile_application__native.model.Customer
 import com.example.ead_mobile_application__native.model.SignIn
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.FormBody
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -19,7 +19,7 @@ class CustomerApiService {
     // SERVICE FUNCTION TO SIGN UP
     fun signUp(customer: Customer, callback: (String?) -> Unit) {
         // CONSTRUCT THE URL
-        val url = "http://BACKEND_SERVER_URL/api/v1/auth/sign-up"
+        val url = "${BuildConfig.BASE_URL}/api/v1/auth/sign-up"
 
         // CREATE THE JSON OBJECT FOR THE REQUEST BODY
         val jsonBody = JSONObject().apply {
@@ -55,7 +55,7 @@ class CustomerApiService {
 
     // SERVICE FUNCTION TO SIGN IN
     fun signIn(signIn: SignIn, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/auth/sign-in"
+        val url = "${BuildConfig.BASE_URL}/api/v1/auth/sign-in"
 
         val jsonBody = JSONObject().apply {
             put("email", signIn.email)
@@ -83,7 +83,7 @@ class CustomerApiService {
 
     // SERVICE FUNCTION TO CHANGE CUSTOMER EMAIL
     fun changeEmail(currentEmail: String, newEmail: String, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/auth/change-email"
+        val url = "${BuildConfig.BASE_URL}/api/v1/auth/change-email"
 
         val jsonBody = JSONObject().apply {
             put("currentEmail", currentEmail)
@@ -111,7 +111,7 @@ class CustomerApiService {
 
     // SERVICE FUNCTION TO CHANGE CUSTOMER PASSWORD
     fun changePassword(email: String, currentPassword: String, newPassword: String, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/auth/change-password"
+        val url = "${BuildConfig.BASE_URL}/api/v1/auth/change-password"
 
         val jsonBody = JSONObject().apply {
             put("email", email)
@@ -140,7 +140,7 @@ class CustomerApiService {
 
     // SERVICE FUNCTION TO DEACTIVATE ACCOUNT
     fun deactivateAccount(email: String, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/auth/deactivate"
+        val url = "${BuildConfig.BASE_URL}/api/v1/auth/deactivate"
 
         val jsonBody = JSONObject().apply {
             put("email", email)

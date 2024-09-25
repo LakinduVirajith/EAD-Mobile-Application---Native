@@ -1,5 +1,6 @@
 package com.example.ead_mobile_application__native.service
 
+import com.example.ead_mobile_application__native.BuildConfig
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
@@ -16,7 +17,7 @@ class VendorApiService {
     // SERVICE FUNCTION TO ADD RANKING TO THE VENDOR
     fun addRanking(comment: String, rating: Int, callback: (String?) -> Unit) {
         // CONSTRUCT THE URL
-        val url = "http://BACKEND_SERVER_URL/api/v1/ranking/vendor/add"
+        val url = "${BuildConfig.BASE_URL}/api/v1/ranking/vendor/add"
 
         // CREATE THE JSON OBJECT FOR THE REQUEST BODY
         val jsonBody = JSONObject().apply {
