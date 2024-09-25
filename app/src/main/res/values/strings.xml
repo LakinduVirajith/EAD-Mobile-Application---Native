@@ -47,7 +47,15 @@
 
     <!--   PRODUCT DETAILS ACTIVITY    -->
     <string name="price_format">$%.2f</string>
+    <string name="size">Size: </string>
+    <string name="select_size">"Select Size</string>
+    <string name="color">Color: </string>
+    <string name="select_color">"Select Color</string>
+    <string name="quantity">Quantity</string>
+    <string name="minus_icon">Minus Icon</string>
+    <string name="plus_icon">Plus Icon</string>
     <string name="price">Price:</string>
+    <string name="discount_price">Discount Price</string>
     <string name="category">Category:</string>
     <string name="stock_quantity">Stock Quantity:</string>
     <string name="rating">Rating:</string>

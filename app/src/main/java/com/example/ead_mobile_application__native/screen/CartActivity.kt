@@ -41,16 +41,18 @@ class CartActivity : AppCompatActivity() {
     // SAMPLE CART LIST
     private var cartList = listOf(
         Cart(
-            id = "00001",
-            name = "Product 1",
-            price = 10.00,
+            id = "1",
+            name = "Casual Cotton T-Shirt",
+            price = 19.99,
+            discount = 4.00,
             imageResId = R.drawable.product_1,
             quantity = 1
         ),
         Cart(
-            id = "00004",
-            name = "Product 4",
-            price = 25.00,
+            id = "4",
+            name = "Classic Chino Pants",
+            price = 34.99,
+            discount = 7.00,
             imageResId = R.drawable.product_4,
             quantity = 2
         )

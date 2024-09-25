@@ -59,7 +59,10 @@ class CartAdapter(private var items: List<Cart>) : RecyclerView.Adapter<CartAdap
             .load(item.imageResId)
             .into(holder.productImage)
         holder.productName.text = item.name
-        holder.productPrice.text = holder.itemView.context.getString(R.string.price_format, item.price)
+
+        // CALCULATE AND SET THE DISCOUNTABLE PRICE
+        val discountPrice = item.price - (item.price * item.discount / 100)
+        holder.productPrice.text = holder.itemView.context.getString(R.string.price_format, discountPrice)
         holder.productQuantity.text = item.quantity.toString()
 
         // SET CLICK LISTENER TO INGRESS QUANTITY

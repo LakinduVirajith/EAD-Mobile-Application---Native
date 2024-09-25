@@ -1,12 +1,9 @@
 package com.example.ead_mobile_application__native.model
 
 data class Product (
-    val id: String,
+    val productId: String,
+    val imageResId: Int,
     val name: String,
     val price: Double,
-    val description: String,
-    val imageResId: Int,
-    val rating: Float,
-    val category: String,
-    val stockQuantity: Int
+    val discount: Double
 )

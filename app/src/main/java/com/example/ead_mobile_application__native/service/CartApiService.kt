@@ -14,13 +14,16 @@ class CartApiService {
     private val client = OkHttpClient()
 
     // SERVICE FUNCTION TO ADD PRODUCT TO CARD
-    fun cartProduct(productId: String, callback: (String?) -> Unit) {
+    fun addCart(productId: Int, size: String, color: String, quantity: Int, callback: (String?) -> Unit) {
         // CONSTRUCT THE URL FOR ADDING TO THE CART
         val url = "http://BACKEND_SERVER_URL/api/v1/cart/add"
 
         // CREATE THE JSON OBJECT FOR THE REQUEST BODY
         val jsonBody = JSONObject().apply {
             put("productId", productId)
+            put("quantity", quantity)
+            put("size", size)
+            put("color", color)
         }
 
         // CREATE THE REQUEST BODY

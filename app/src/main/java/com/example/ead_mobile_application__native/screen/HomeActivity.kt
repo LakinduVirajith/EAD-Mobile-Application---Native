@@ -46,64 +46,46 @@ class HomeActivity : AppCompatActivity() {
     // SAMPLE PRODUCT LIST
     private var productList = listOf(
         Product(
-            id = "00001",
-            name = "Product 1",
-            price = 10.00,
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pretium egestas est, et convallis dolor sollicitudin at. In hac habitasse platea dictumst. Duis eget leo dictum, convallis sapien in, hendrerit augue. Aliquam porttitor justo non libero imperdiet suscipit. Curabitur et nisi nisi. Proin consequat turpis nibh, eu accumsan leo accumsan ac. Duis semper malesuada egestas. Vestibulum cursus nisl ac augue molestie, quis vehicula urna vestibulum. Suspendisse ut rutrum ante. Duis rutrum, nulla at pharetra luctus, erat velit finibus augue, sit amet tincidunt felis mi placerat ipsum. Nullam molestie, velit quis hendrerit mattis, velit justo ultrices libero, nec efficitur nibh sapien vitae nulla. Suspendisse elit neque, placerat vehicula leo sit amet, bibendum condimentum eros. In hac habitasse platea dictumst. Nulla quis mi sapien. Proin hendrerit ante et turpis luctus, non maximus libero scelerisque.",
+            productId = "1",
             imageResId = R.drawable.product_1,
-            rating = 4.5f,
-            category = "Electronics",
-            stockQuantity = 100
+            name = "Casual Cotton T-Shirt",
+            price = 19.99,
+            discount = 4.00
         ),
         Product(
-            id = "00002",
-            name = "Product 2",
-            price = 15.00,
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pretium egestas est, et convallis dolor sollicitudin at. In hac habitasse platea dictumst. Duis eget leo dictum, convallis sapien in, hendrerit augue. Aliquam porttitor justo non libero imperdiet suscipit. Curabitur et nisi nisi. Proin consequat turpis nibh, eu accumsan leo accumsan ac. Duis semper malesuada egestas. Vestibulum cursus nisl ac augue molestie, quis vehicula urna vestibulum. Suspendisse ut rutrum ante. Duis rutrum, nulla at pharetra luctus, erat velit finibus augue, sit amet tincidunt felis mi placerat ipsum. Nullam molestie, velit quis hendrerit mattis, velit justo ultrices libero, nec efficitur nibh sapien vitae nulla. Suspendisse elit neque, placerat vehicula leo sit amet, bibendum condimentum eros. In hac habitasse platea dictumst. Nulla quis mi sapien. Proin hendrerit ante et turpis luctus, non maximus libero scelerisque.",
+            productId = "2",
             imageResId = R.drawable.product_2,
-            rating = 4.0f,
-            category = "Clothing",
-            stockQuantity = 50
+            name = "Slim Fit Jeans",
+            price = 39.99,
+            discount = 10.00
         ),
         Product(
-            id = "00003",
-            name = "Product 3",
-            price = 20.00,
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pretium egestas est, et convallis dolor sollicitudin at. In hac habitasse platea dictumst. Duis eget leo dictum, convallis sapien in, hendrerit augue. Aliquam porttitor justo non libero imperdiet suscipit. Curabitur et nisi nisi. Proin consequat turpis nibh, eu accumsan leo accumsan ac. Duis semper malesuada egestas. Vestibulum cursus nisl ac augue molestie, quis vehicula urna vestibulum. Suspendisse ut rutrum ante. Duis rutrum, nulla at pharetra luctus, erat velit finibus augue, sit amet tincidunt felis mi placerat ipsum. Nullam molestie, velit quis hendrerit mattis, velit justo ultrices libero, nec efficitur nibh sapien vitae nulla. Suspendisse elit neque, placerat vehicula leo sit amet, bibendum condimentum eros. In hac habitasse platea dictumst. Nulla quis mi sapien. Proin hendrerit ante et turpis luctus, non maximus libero scelerisque.",
+            productId = "3",
             imageResId = R.drawable.product_3,
-            rating = 4.2f,
-            category = "Accessories",
-            stockQuantity = 75
+            name = "Lightweight Hoodie",
+            price = 29.99,
+            discount = 5.00
         ),
         Product(
-            id = "00004",
-            name = "Product 4",
-            price = 25.00,
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pretium egestas est, et convallis dolor sollicitudin at. In hac habitasse platea dictumst. Duis eget leo dictum, convallis sapien in, hendrerit augue. Aliquam porttitor justo non libero imperdiet suscipit. Curabitur et nisi nisi. Proin consequat turpis nibh, eu accumsan leo accumsan ac. Duis semper malesuada egestas. Vestibulum cursus nisl ac augue molestie, quis vehicula urna vestibulum. Suspendisse ut rutrum ante. Duis rutrum, nulla at pharetra luctus, erat velit finibus augue, sit amet tincidunt felis mi placerat ipsum. Nullam molestie, velit quis hendrerit mattis, velit justo ultrices libero, nec efficitur nibh sapien vitae nulla. Suspendisse elit neque, placerat vehicula leo sit amet, bibendum condimentum eros. In hac habitasse platea dictumst. Nulla quis mi sapien. Proin hendrerit ante et turpis luctus, non maximus libero scelerisque.",
+            productId = "4",
             imageResId = R.drawable.product_4,
-            rating = 4.8f,
-            category = "Electronics",
-            stockQuantity = 200
+            name = "Classic Chino Pants",
+            price = 34.99,
+            discount = 7.00
         ),
         Product(
-            id = "00005",
-            name = "Product 5",
-            price = 30.00,
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pretium egestas est, et convallis dolor sollicitudin at. In hac habitasse platea dictumst. Duis eget leo dictum, convallis sapien in, hendrerit augue. Aliquam porttitor justo non libero imperdiet suscipit. Curabitur et nisi nisi. Proin consequat turpis nibh, eu accumsan leo accumsan ac. Duis semper malesuada egestas. Vestibulum cursus nisl ac augue molestie, quis vehicula urna vestibulum. Suspendisse ut rutrum ante. Duis rutrum, nulla at pharetra luctus, erat velit finibus augue, sit amet tincidunt felis mi placerat ipsum. Nullam molestie, velit quis hendrerit mattis, velit justo ultrices libero, nec efficitur nibh sapien vitae nulla. Suspendisse elit neque, placerat vehicula leo sit amet, bibendum condimentum eros. In hac habitasse platea dictumst. Nulla quis mi sapien. Proin hendrerit ante et turpis luctus, non maximus libero scelerisque.",
+            productId = "5",
             imageResId = R.drawable.product_5,
-            rating = 4.1f,
-            category = "Home",
-            stockQuantity = 30
+            name = "Summer Dress",
+            price = 49.99,
+            discount = 15.00
         ),
         Product(
-            id = "00006",
-            name = "Product 6",
-            price = 35.00,
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pretium egestas est, et convallis dolor sollicitudin at. In hac habitasse platea dictumst. Duis eget leo dictum, convallis sapien in, hendrerit augue. Aliquam porttitor justo non libero imperdiet suscipit. Curabitur et nisi nisi. Proin consequat turpis nibh, eu accumsan leo accumsan ac. Duis semper malesuada egestas. Vestibulum cursus nisl ac augue molestie, quis vehicula urna vestibulum. Suspendisse ut rutrum ante. Duis rutrum, nulla at pharetra luctus, erat velit finibus augue, sit amet tincidunt felis mi placerat ipsum. Nullam molestie, velit quis hendrerit mattis, velit justo ultrices libero, nec efficitur nibh sapien vitae nulla. Suspendisse elit neque, placerat vehicula leo sit amet, bibendum condimentum eros. In hac habitasse platea dictumst. Nulla quis mi sapien. Proin hendrerit ante et turpis luctus, non maximus libero scelerisque.",
+            productId = "6",
             imageResId = R.drawable.product_6,
-            rating = 4.7f,
-            category = "Electronics",
-            stockQuantity = 60
+            name = "Stylish Sneakers",
+            price = 59.99,
+            discount = 10.00
         )
     )
 
@@ -224,23 +206,21 @@ class HomeActivity : AppCompatActivity() {
 
     // FUNCTION TO SETUP PRODUCT LIST AND ADAPTER
     private fun setupProductList() {
+//        productApiService.fetchHomeProducts() { response ->
+//            runOnUiThread {
+//                // UPDATE PRODUCT LIST BASED ON RESPONSE
+//                if (response != null) {
+//                    val gson = Gson()
+//                    val productType = object : TypeToken<List<Product>>() {}.type
+//                    updateProductList(gson.fromJson(response, productType))
+//                }
+//            }
+//        }
+
         // INITIALIZE THE ADEPTER WITH AND EMPTY PRODUCT LIST
         productAdapter = ProductAdapter(productList)
         productRecyclerView.adapter = productAdapter
         productRecyclerView.layoutManager = GridLayoutManager(this, 2)
-
-        return
-
-        productApiService.homeProducts() { response ->
-            runOnUiThread {
-                // UPDATE PRODUCT LIST BASED ON RESPONSE
-                if (response != null) {
-                    val gson = Gson()
-                    val productType = object : TypeToken<List<Product>>() {}.type
-                    updateProductList(gson.fromJson(response, productType))
-                }
-            }
-        }
     }
 
     // FUNCTION TO SETUP SEARCH FUNCTIONALITY
@@ -274,26 +254,24 @@ class HomeActivity : AppCompatActivity() {
 
     // FUNCTION TO PERFORM SEARCH
     private fun performSearch(query: String) {
-        Toast.makeText(this, "Searching for: $query", Toast.LENGTH_SHORT).show()
-        return
+//        // CHECK IF SEARCH FIELDS IS FILLED
+//        if (query != "") {
+//            // CALL SEARCH METHOD FROM API SERVICE
+//            productApiService.searchProducts(query) { response ->
+//                runOnUiThread {
+//                    // UPDATE PRODUCT LIST BASED ON RESPONSE
+//                    if (response != null) {
+//                        val gson = Gson()
+//                        val productType = object : TypeToken<List<Product>>() {}.type
+//                        updateProductList(gson.fromJson(response, productType))
+//                    }
+//                }
+//            }
+//        } else {
+//            setupProductList()
+//        }
 
-        // CHECK IF SEARCH FIELDS IS FILLED
-        if (query != "") {
-            // CALL SEARCH METHOD FROM API SERVICE
-            productApiService.searchProducts(query) { response ->
-                runOnUiThread {
-                    // UPDATE PRODUCT LIST BASED ON RESPONSE
-                    if (response != null) {
-                        val gson = Gson()
-                        val productType = object : TypeToken<List<Product>>() {}.type
-                        updateProductList(gson.fromJson(response, productType))
-                    }
-                }
-            }
-        } else {
-            // ALERT USER TO FILL SEARCH FIELD
-            Toast.makeText(this, "Search Field is Empty", Toast.LENGTH_SHORT).show()
-        }
+        Toast.makeText(this, "Searching for: $query", Toast.LENGTH_SHORT).show()
     }
 
     // STOP SLIDING TO PREVENT MEMORY LEAKS

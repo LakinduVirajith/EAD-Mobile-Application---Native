@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp" >
+        android:padding="16dp"
+        android:layout_marginBottom="108dp" >
 
         <!-- Cart List View -->
         <androidx.recyclerview.widget.RecyclerView
@@ -26,7 +27,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_marginVertical="18dp"
-            android:layout_height="3dp"
+            android:layout_height="2dp"
             android:background="@color/black20" />
 
         <!-- Total Price -->
@@ -41,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/total_price"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black20" />
 
@@ -49,7 +50,7 @@
                 android:id="@+id/cTotalPriceText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black20" />
         </LinearLayout>
@@ -57,7 +58,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_marginVertical="18dp"
-            android:layout_height="3dp"
+            android:layout_height="2dp"
             android:background="@color/black20" />
 
         <!-- Place Order Button -->
