@@ -1,5 +1,6 @@
 package com.example.ead_mobile_application__native.service
 
+import com.example.ead_mobile_application__native.BuildConfig
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType
@@ -15,13 +16,16 @@ class ProductApiService {
 
     // SERVICE FUNCTION TO SEARCH PRODUCT
     fun searchProducts(value: String, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/products?search=$value"
+        // CONSTRUCT THE URL
+        val url = "${BuildConfig.BASE_URL}/api/v1/products?search=$value"
 
+        // BUILD THE REQUEST
         val request = Request.Builder()
             .url(url)
             .get()
             .build()
 
+        // EXECUTE THE REQUEST
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 callback(null)
@@ -35,7 +39,7 @@ class ProductApiService {
 
     // SERVICE FUNCTION TO GET HOME PRODUCTS
     fun fetchHomeProducts(callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/products"
+        val url = "${BuildConfig.BASE_URL}/api/v1/products"
 
         val request = Request.Builder()
             .url(url)
@@ -55,7 +59,7 @@ class ProductApiService {
 
     // SERVICE FUNCTION TO GET PRODUCT DETAILS
     fun fetchProductDetails(productId: String, callback: (String?) -> Unit) {
-        val url = "http://BACKEND_SERVER_URL/api/v1/product?search=$productId"
+        val url = "${BuildConfig.BASE_URL}/api/v1/product?search=$productId"
 
         val request = Request.Builder()
             .url(url)
