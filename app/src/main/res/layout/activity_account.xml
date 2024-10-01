@@ -22,7 +22,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-<!--    _____________________________________________________     -->
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
             <!--  Section 1 - Change Email -->
             <LinearLayout
@@ -49,7 +49,7 @@
                     android:id="@+id/pToggleIcon1"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_arrow_up"
+                    android:src="@drawable/ic_arrow_down"
                     android:contentDescription="@string/toggle" />
             </LinearLayout>
 
@@ -140,7 +140,7 @@
                 android:layout_height="2dp"
                 android:background="@color/black20" />
 
-<!--    _____________________________________________________     -->
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
             <!--  Section 2 - Change Password -->
             <LinearLayout
@@ -298,9 +298,184 @@
                 android:layout_height="2dp"
                 android:background="@color/black20" />
 
-<!--    _____________________________________________________     -->
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-            <!--  Section 3 - Deactivate Account -->
+            <!--  Section 3 - Change Account Details -->
+            <LinearLayout
+                android:id="@+id/pUpdateAccountDetailsSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/update_account_details"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/pToggleIcon3"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_arrow_down"
+                    android:contentDescription="@string/toggle" />
+            </LinearLayout>
+
+            <!-- User Name Field -->
+            <LinearLayout
+                android:id="@+id/pUserNameSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp">
+
+                <EditText
+                    android:id="@+id/pUserName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/user_name"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black20"
+                    android:textColorHint="@color/black80"
+                    android:paddingHorizontal="6dp"
+                    android:minHeight="48dp"
+                    android:autofillHints="@null"
+                    android:background="@android:color/transparent" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_user"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/user_icon"
+                    app:tint="@android:color/black" />
+            </LinearLayout>
+
+            <!-- Phone Number Field -->
+            <LinearLayout
+                android:id="@+id/pPhoneNumberSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp">
+
+                <EditText
+                    android:id="@+id/pPhoneNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/phone_number"
+                    android:inputType="phone|number"
+                    android:textColor="@color/black20"
+                    android:textColorHint="@color/black80"
+                    android:paddingHorizontal="6dp"
+                    android:minHeight="48dp"
+                    android:autofillHints="@null"
+                    android:background="@android:color/transparent" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_telephone"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/phone_icon"
+                    app:tint="@android:color/black" />
+            </LinearLayout>
+
+            <!-- Date of Birth Field -->
+            <LinearLayout
+                android:id="@+id/pDateOfBirthSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp">
+
+                <EditText
+                    android:id="@+id/pDateOfBirth"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/date_of_birth"
+                    android:textColor="@color/black20"
+                    android:textColorHint="@color/black80"
+                    android:paddingHorizontal="6dp"
+                    android:minHeight="48dp"
+                    android:background="@android:color/transparent"
+                    android:autofillHints="@null"
+                    android:inputType="date"
+                    android:focusable="true"
+                    android:clickable="true" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_calendar"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/calender_icon"
+                    app:tint="@android:color/black" />
+            </LinearLayout>
+
+            <!-- Gender DropDown -->
+            <LinearLayout
+                android:id="@+id/pGenderSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp">
+
+                <Spinner
+                    android:id="@+id/pGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:paddingHorizontal="6dp"
+                    android:spinnerMode="dropdown"
+                    android:prompt="@string/select_gender" />
+            </LinearLayout>
+
+            <!-- Change Button 3 -->
+            <Button
+                android:id="@+id/pBtnUpdateAccountDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:height="64dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/button_background" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:layout_height="2dp"
+                android:background="@color/black20" />
+
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+            <!--  Section 4 - Deactivate Account -->
             <LinearLayout
                 android:id="@+id/pDeactivateAccountSection"
                 android:layout_width="match_parent"
@@ -322,7 +497,7 @@
                     android:layout_weight="1" />
 
                 <ImageView
-                    android:id="@+id/pToggleIcon3"
+                    android:id="@+id/pToggleIcon4"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/ic_arrow_down"
@@ -381,6 +556,20 @@
                 android:layout_marginBottom="24dp"
                 android:layout_height="2dp"
                 android:background="@color/black20" />
+
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+            <!--  Section 5 - Logout Account -->
+            <Button
+                android:id="@+id/pBtnLogoutAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/logout"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:height="64dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/button_background" />
         </LinearLayout>
     </ScrollView>
 

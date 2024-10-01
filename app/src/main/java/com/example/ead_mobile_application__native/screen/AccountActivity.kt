@@ -1,33 +1,45 @@
 package com.example.ead_mobile_application__native.screen
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.view.WindowInsetsController
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ead_mobile_application__native.R
+import com.example.ead_mobile_application__native.model.CustomerDetails
+import com.example.ead_mobile_application__native.service.AuthApiService
 import com.example.ead_mobile_application__native.service.CustomerApiService
+import com.example.ead_mobile_application__native.utils.DateUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.Calendar
+import java.util.Locale
 
 class AccountActivity : AppCompatActivity() {
-    // INSTANCE OF THE CUSTOMER API SERVICE
-    private val customerApiService = CustomerApiService()
+    // INSTANCE OF THE API SERVICES
+    private val customerApiService = CustomerApiService(this)
+    private val authApiService = AuthApiService(this)
 
     // TRACK CURRENT PASSWORD VISIBILITY STATUS
     private var isCurrentPasswordVisible = false
 
     // TRACK NEW PASSWORD VISIBILITY STATUS
     private var isNewPasswordVisible = false
+
+    // LATE INIT USER DETAILS
+    private lateinit var customerDetails: CustomerDetails
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +65,8 @@ class AccountActivity : AppCompatActivity() {
 
         // SETUP NAVIGATION BAR
         setupBottomNavigationView()
+        // FETCH AND SETUP USER DETAILS
+        fetchAndSetupUserDetails()
         // SETUP EMAIL CHANGE SECTIONS
         setupChangeEmailSection()
 
@@ -63,8 +77,13 @@ class AccountActivity : AppCompatActivity() {
         // SET UP NEW PASSWORD VISIBILITY TOGGLE FUNCTIONALITY
         setupNewPasswordToggle()
 
+        // SETUP ACCOUNT DETAILS CHANGE SECTIONS
+        setupChangeDetailsSection()
+
         // SETUP DEACTIVATE ACCOUNT SECTIONS
         setupDeactivateAccountSection()
+        // SETUP LOGOUT ACCOUNT SECTIONS
+        setupLogoutAccountSection()
     }
 
     // SETUP BOTTOM NAVIGATION VIEW AND ITS ITEM SELECTION
@@ -98,7 +117,37 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
-/*  ------------------------------------------------------------------------------------------------    */
+    // FUNCTION TO FETCH AND SETUP USER DETAILS
+    private fun fetchAndSetupUserDetails() {
+        customerApiService.getUserDetails { customer ->
+            runOnUiThread {
+                if (customer != null) {
+                    customerDetails = CustomerDetails(customer.userName, customer.email,
+                        customer.phoneNumber, customer.dateOfBirth, customer.gender)
+
+                    val userNameEditText = findViewById<EditText>(R.id.pUserName)
+                    val phoneNumberEditText = findViewById<EditText>(R.id.pPhoneNumber)
+                    val dateOfBirthEditText = findViewById<EditText>(R.id.pDateOfBirth)
+                    val genderSpinner = findViewById<Spinner>(R.id.pGender)
+
+                    userNameEditText.hint = customer.userName
+                    phoneNumberEditText.hint = customer.phoneNumber
+
+                    // SET UP DATE PICKER FOR DATE OF BIRTH EDIT-TEXT
+                    setupDatePicker(dateOfBirthEditText, customer.dateOfBirth)
+
+                    // SET UP THE SPINNER FOR GENDER SELECTION
+                    setupGenderSpinner(genderSpinner, customer.gender)
+                } else {
+                    Toast.makeText(this, "Fetching account Failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
+                    authApiService.removeTokens()
+                    startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
+                }
+            }
+        }
+    }
+
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
     // SETUP CHANGE EMAIL SECTION WITH TOGGLE AND ACTIONS
     private fun setupChangeEmailSection() {
@@ -110,6 +159,10 @@ class AccountActivity : AppCompatActivity() {
         val newEmailEditText = findViewById<EditText>(R.id.pNewEmail)
         val toggleIcon = findViewById<ImageView>(R.id.pToggleIcon1)
         val changeEmailButton = findViewById<Button>(R.id.pBtnChangeEmail)
+
+        currentEmailSection.visibility = View.GONE
+        newEmailSection.visibility = View.GONE
+        changeEmailButton.visibility = View.GONE
 
         // TOGGLE EMAIL SECTION VISIBILITY ON CLICK
         changeEmailSection.setOnClickListener {
@@ -142,13 +195,27 @@ class AccountActivity : AppCompatActivity() {
         if (currentEmail != "" && newEmail != "") {
 
             // CALL CUSTOMER API SERVICE TO CHANGE EMAIL
-            customerApiService.changeEmail(currentEmail, newEmail) { response ->
+            customerApiService.changeEmail(currentEmail, newEmail) { status, message ->
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
-                    if (response != null) {
-                        Toast.makeText(this, "Change Email Successful", Toast.LENGTH_SHORT).show()
+                    if (status != null) {
+                        when (status) {
+                            200 -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                                authApiService.removeTokens()
+                                startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
+                            }
+                            401 -> {
+                                Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()
+                                authApiService.removeTokens()
+                                startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
+                            }
+                            else -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     } else {
-                        Toast.makeText(this, "Change Email Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Change password failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -158,7 +225,7 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
-/*  ------------------------------------------------------------------------------------------------    */
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
     // SETUP CHANGE PASSWORD SECTION WITH TOGGLE AND ACTIONS
     private fun setupChangePasswordSection() {
@@ -256,13 +323,27 @@ class AccountActivity : AppCompatActivity() {
         if (email != "" && currentPassword != "" && newPassword != "") {
 
             // CALL CUSTOMER API SERVICE TO CHANGE PASSWORD
-            customerApiService.changePassword(email, currentPassword, newPassword) { response ->
+            customerApiService.changePassword(email, currentPassword, newPassword) { status, message ->
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
-                    if (response != null) {
-                        Toast.makeText(this, "Change Password Successful", Toast.LENGTH_SHORT).show()
+                    if (status != null) {
+                        when (status) {
+                            200 -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                                authApiService.removeTokens()
+                                startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
+                            }
+                            401 -> {
+                                Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()
+                                authApiService.removeTokens()
+                                startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
+                            }
+                            else -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     } else {
-                        Toast.makeText(this, "Change Password Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Change password failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -272,7 +353,160 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
-/*  ------------------------------------------------------------------------------------------------    */
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+    // SETUP CHANGE ACCOUNT DETAILS SECTION WITH TOGGLE AND ACTIONS
+    private fun setupChangeDetailsSection() {
+        // INITIALIZE EMAIL SECTION VIEWS
+        val updateAccountDetailsSection = findViewById<LinearLayout>(R.id.pUpdateAccountDetailsSection)
+        val userNameSection = findViewById<LinearLayout>(R.id.pUserNameSection)
+        val phoneNumberSection = findViewById<LinearLayout>(R.id.pPhoneNumberSection)
+        val dateOfBirthSection = findViewById<LinearLayout>(R.id.pDateOfBirthSection)
+        val genderSection = findViewById<LinearLayout>(R.id.pGenderSection)
+
+        val userNameEditText = findViewById<EditText>(R.id.pUserName)
+        val phoneNumberEditText = findViewById<EditText>(R.id.pPhoneNumber)
+        val dateOfBirthEditText = findViewById<EditText>(R.id.pDateOfBirth)
+        val genderSpinner = findViewById<Spinner>(R.id.pGender)
+
+        val toggleIcon = findViewById<ImageView>(R.id.pToggleIcon3)
+        val updateDetailsButton = findViewById<Button>(R.id.pBtnUpdateAccountDetails)
+
+        userNameSection.visibility = View.GONE
+        phoneNumberSection.visibility = View.GONE
+        dateOfBirthSection.visibility = View.GONE
+        genderSection.visibility = View.GONE
+        updateDetailsButton.visibility = View.GONE
+
+        // TOGGLE PASSWORD SECTION VISIBILITY ON CLICK
+        updateAccountDetailsSection.setOnClickListener {
+            if (userNameSection.visibility == View.GONE) {
+                userNameSection.visibility = View.VISIBLE
+                phoneNumberSection.visibility = View.VISIBLE
+                dateOfBirthSection.visibility = View.VISIBLE
+                genderSection.visibility = View.VISIBLE
+                updateDetailsButton.visibility = View.VISIBLE
+                toggleIcon.setImageResource(R.drawable.ic_arrow_up) // CHANGE ICON WHEN EXPANDED
+            } else {
+                userNameSection.visibility = View.GONE
+                phoneNumberSection.visibility = View.GONE
+                dateOfBirthSection.visibility = View.GONE
+                genderSection.visibility = View.GONE
+                updateDetailsButton.visibility = View.GONE
+                toggleIcon.setImageResource(R.drawable.ic_arrow_down) // CHANGE ICON WHEN COLLAPSED
+            }
+        }
+
+        // HANDLE PASSWORD CHANGE BUTTON CLICK
+        updateDetailsButton.setOnClickListener {
+            handleUpdateAccountDetails(userNameEditText, phoneNumberEditText, dateOfBirthEditText, genderSpinner)
+        }
+    }
+
+    // FUNCTION TO SET UP DATE-PICKER FOR DATE OF BIRTH
+    private fun setupDatePicker(dateOfBirthEditText: EditText, dateOfBirth: String) {
+        // DISABLE KEYBOARD INPUT FOR THE DATA EDIT-TEXT
+        dateOfBirthEditText.inputType = InputType.TYPE_NULL
+        dateOfBirthEditText.isFocusable = false
+
+        // FORMAT THE DATE OF BIRTH TO "dd/MM/yyyy"
+        val formattedDateOfBirth = DateUtils.formatDate(dateOfBirth, "yyyy-MM-dd", "dd/MM/yyyy")
+
+        if (formattedDateOfBirth == null) {
+            Toast.makeText(this, "Date format error", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        dateOfBirthEditText.hint = formattedDateOfBirth.toString()
+
+        // SET UP A CLICK LISTENER TO SHOW DATA-PICKER DIALOG
+        dateOfBirthEditText.setOnClickListener {
+            // CREATE A CALENDER INSTANCE FOR DATE-PICKER
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            // CREATE DATE-PICKER DIALOG
+            val datePickerDialog = DatePickerDialog(this,
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    // FORMAT AND SET THE SELECTED DATE IN EDIT-TEXT
+                    val formattedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
+                    dateOfBirthEditText.setText(formattedDate)
+                }, year, month, day)
+
+            datePickerDialog.show()
+        }
+    }
+
+    // FUNCTION TO SET UP THE GENDER SPINNER
+    private fun setupGenderSpinner(genderSpinner: Spinner, gender: String) {
+        val genderOptions = arrayOf("Male", "Female", "Other")
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, genderOptions)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        genderSpinner.adapter = adapter
+
+        // FIND THE POSITION OF THE GENDER AND SET SELECTION
+        val genderPosition = adapter.getPosition(gender)
+        genderSpinner.setSelection(genderPosition)
+    }
+
+    // FUNCTION TO HANDLE UPDATE ACCOUNT LOGIC
+    private fun handleUpdateAccountDetails(
+        userNameEditText: EditText,
+        phoneNumberEditText: EditText,
+        dateOfBirthEditText: EditText,
+        genderSpinner: Spinner) {
+
+        // RETRIEVE INPUT VALUES
+        val userName = userNameEditText.text.toString()
+        val phoneNumber = phoneNumberEditText.text.toString()
+        val dateOfBirth = dateOfBirthEditText.text.toString()
+        val gender = genderSpinner.selectedItem.toString()
+
+        // CHECK IF ALL FIELDS ARE FILLED
+        if (userName != "" && phoneNumber != "" && dateOfBirth != "" && gender != "") {
+
+            // FORMAT THE DATE OF BIRTH TO "yyyy-MM-dd"
+            val formattedDateOfBirth = DateUtils.formatDate(dateOfBirth, "dd/MM/yyyy", "yyyy-MM-dd")
+
+            if (formattedDateOfBirth == null) {
+                Toast.makeText(this, "Date format error", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            // CALL CUSTOMER API SERVICE TO UPDATE ACCOUNT
+            customerApiService.updateUserDetails(CustomerDetails(userName = userName, email = customerDetails.email, phoneNumber = phoneNumber, dateOfBirth = formattedDateOfBirth, gender = gender)) { status, message ->
+                runOnUiThread {
+                    // DISPLAY FEEDBACK BASED ON RESPONSE
+                    if (status != null) {
+                        when (status) {
+                            200 -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                                authApiService.removeTokens()
+                                startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
+                            }
+                            401 -> {
+                                Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()
+                                authApiService.removeTokens()
+                                startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
+                            }
+                            else -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "Update account failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }else{
+                // ALERT USER TO FILL ALL FIELDS
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
     // SETUP DEACTIVATE ACCOUNT SECTION WITH TOGGLE AND ACTIONS
     private fun setupDeactivateAccountSection(){
@@ -280,7 +514,7 @@ class AccountActivity : AppCompatActivity() {
         val deactivateAccountSection = findViewById<LinearLayout>(R.id.pDeactivateAccountSection)
         val emailSection = findViewById<LinearLayout>(R.id.pDeactivateEmailSection)
         val emailEditText = findViewById<EditText>(R.id.pDeactivateEmail)
-        val toggleIcon = findViewById<ImageView>(R.id.pToggleIcon3)
+        val toggleIcon = findViewById<ImageView>(R.id.pToggleIcon4)
         val deactivateAccountButton = findViewById<Button>(R.id.pBtnDeactivateAccount)
 
         emailSection.visibility = View.GONE
@@ -314,19 +548,47 @@ class AccountActivity : AppCompatActivity() {
         if (email != "") {
 
             // CALL CUSTOMER API SERVICE TO DEACTIVATE ACCOUNT
-            customerApiService.deactivateAccount(email) { response ->
+            customerApiService.deactivateAccount(email) { status, message ->
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
-                    if (response != null) {
-                        Toast.makeText(this, "Deactivate Account Successful", Toast.LENGTH_SHORT).show()
+                    if (status != null) {
+                        when (status) {
+                            200 -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                                authApiService.removeTokens()
+                                startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
+                            }
+                            401 -> {
+                                Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()
+                                authApiService.removeTokens()
+                                startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
+                            }
+                            else -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     } else {
-                        Toast.makeText(this, "Deactivate Account Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Deactivate account failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         } else {
             // ALERT USER TO FILL ALL FIELDS
             Toast.makeText(this, "Please Fill Email Fields", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+    // SETUP LOGOUT ACCOUNT SECTION
+    private fun setupLogoutAccountSection(){
+        val logoutAccountButton = findViewById<Button>(R.id.pBtnLogoutAccount)
+
+        // HANDLE LOGOUT ACCOUNT BUTTON CLICK
+        logoutAccountButton.setOnClickListener {
+            Toast.makeText(this, "You have successfully logged out. See you next time!", Toast.LENGTH_SHORT).show()
+            authApiService.removeTokens()
+            startActivity(Intent(this, SignInActivity::class.java)).also { finish() }
         }
     }
 }
