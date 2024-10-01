@@ -105,19 +105,19 @@ class SignInActivity : AppCompatActivity() {
                         if(response.code == 200){
                             Toast.makeText(this, "${response.code}: Sign in successfully!.", Toast.LENGTH_SHORT).show()
 
-//                            val intent = Intent(this, HomeActivity::class.java)
-//                            startActivity(intent)
+                            val intent = Intent(this, HomeActivity::class.java)
+                            startActivity(intent)
                         }else{
                             Toast.makeText(this, "${response.code}: Unauthorized. Please check your credentials and try again.", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(this, "Sign Up Failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign in failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         } else {
             // ALERT USER TO FILL ALL FIELDS
-            Toast.makeText(this, "Please Fill All Fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
         }
     }
 

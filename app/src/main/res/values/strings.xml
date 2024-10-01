@@ -34,11 +34,14 @@
     <string name="current_email">Current Email</string>
     <string name="new_email">New Email</string>
     <string name="change">Change</string>
+    <string name="update_account_details">Update Account Details</string>
+    <string name="update">Update</string>
     <string name="change_password">Change Password</string>
     <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
     <string name="deactivate_account">Deactivate Account</string>
     <string name="deactivate">Deactivate</string>
+    <string name="logout">Logout</string>
 
     <!--   HOME ACTIVITY    -->
     <string name="search">Search</string>

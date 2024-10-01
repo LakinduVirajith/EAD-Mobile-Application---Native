@@ -156,25 +156,25 @@ class SignUpActivity : AppCompatActivity() {
         val dateOfBirth = dateOfBirthEditText.text.toString()
         val gender = genderSpinner.selectedItem.toString()
 
-        // FORMAT THE DATE OF BIRTH TO "yyyy-MM-dd"
-        val inputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
-        val formattedDateOfBirth = try {
-            val date = inputDateFormat.parse(dateOfBirth)
-            if(date != null){
-                outputDateFormat.format(date)
-            }else{
-                return
-            }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Date Format Error", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         // CHECK IF ALL FIELDS ARE FILLED
         if (userName != "" && email != "" && password != "" &&
-            phoneNumber != "" && formattedDateOfBirth != "" && gender != "") {
+            phoneNumber != "" && dateOfBirth != "" && gender != "") {
+
+            // FORMAT THE DATE OF BIRTH TO "yyyy-MM-dd"
+            val inputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+            val formattedDateOfBirth = try {
+                val date = inputDateFormat.parse(dateOfBirth)
+                if(date != null){
+                    outputDateFormat.format(date)
+                }else{
+                    return
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this, "Date format error", Toast.LENGTH_SHORT).show()
+                return
+            }
 
             // CALL SIGN-UP METHOD FROM API SERVICE
             authApiService.signUp(Customer(userName, email, password, phoneNumber, formattedDateOfBirth, gender)) { response ->
@@ -192,7 +192,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         } else {
             // ALERT USER TO FILL ALL FIELDS
-            Toast.makeText(this, "Please Fill All Fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
         }
     }
 
