@@ -20,13 +20,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.model.Customer
-import com.example.ead_mobile_application__native.service.CustomerApiService
+import com.example.ead_mobile_application__native.service.AuthApiService
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class SignUpActivity : AppCompatActivity() {
-    // INSTANCE OF THE CUSTOMER API SERVICE
-    private val customerApiService = CustomerApiService()
+    // INSTANCE OF THE AUTH API SERVICE
+    private val authApiService = AuthApiService(this)
 
     // TRACK PASSWORD VISIBILITY STATUS
     private var isPasswordVisible = false
@@ -155,18 +156,37 @@ class SignUpActivity : AppCompatActivity() {
         val dateOfBirth = dateOfBirthEditText.text.toString()
         val gender = genderSpinner.selectedItem.toString()
 
+        // FORMAT THE DATE OF BIRTH TO "yyyy-MM-dd"
+        val inputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val formattedDateOfBirth = try {
+            val date = inputDateFormat.parse(dateOfBirth)
+            if(date != null){
+                outputDateFormat.format(date)
+            }else{
+                return
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Date Format Error", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         // CHECK IF ALL FIELDS ARE FILLED
         if (userName != "" && email != "" && password != "" &&
-            phoneNumber != "" && dateOfBirth != "" && gender != "") {
+            phoneNumber != "" && formattedDateOfBirth != "" && gender != "") {
 
             // CALL SIGN-UP METHOD FROM API SERVICE
-            customerApiService.signUp(Customer(userName, email, password, phoneNumber, dateOfBirth, gender)) { response ->
+            authApiService.signUp(Customer(userName, email, password, phoneNumber, formattedDateOfBirth, gender)) { response ->
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
                     if (response != null) {
-                        Toast.makeText(this, "Sign Up Successful", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
+
+                        val intent = Intent(this, SignInActivity::class.java)
+                        startActivity(intent)
                     } else {
-                        Toast.makeText(this, "Sign Up Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign Up Failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

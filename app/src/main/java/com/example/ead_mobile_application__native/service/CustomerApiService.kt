@@ -1,5 +1,6 @@
 package com.example.ead_mobile_application__native.service
 
+import android.util.Log
 import com.example.ead_mobile_application__native.BuildConfig
 import com.example.ead_mobile_application__native.model.Customer
 import com.example.ead_mobile_application__native.model.SignIn
@@ -10,76 +11,13 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
 class CustomerApiService {
     private val client = OkHttpClient()
-
-    // SERVICE FUNCTION TO SIGN UP
-    fun signUp(customer: Customer, callback: (String?) -> Unit) {
-        // CONSTRUCT THE URL
-        val url = "${BuildConfig.BASE_URL}/api/v1/auth/sign-up"
-
-        // CREATE THE JSON OBJECT FOR THE REQUEST BODY
-        val jsonBody = JSONObject().apply {
-            put("userName", customer.userName)
-            put("email", customer.email)
-            put("password", customer.password)
-            put("phoneNumber", customer.phoneNumber)
-            put("dateOfBirth", customer.dateOfBirth)
-            put("gender", customer.gender)
-        }
-
-        // CREATE THE REQUEST BODY
-        val requestBody = jsonBody.toString()
-            .toRequestBody("application/json; charset=utf-8".toMediaType())
-
-        // BUILD THE REQUEST
-        val request = Request.Builder()
-            .url(url)
-            .post(requestBody)
-            .build()
-
-        // EXECUTE THE REQUEST
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                callback(null)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                callback(response.body?.string())
-            }
-        })
-    }
-
-    // SERVICE FUNCTION TO SIGN IN
-    fun signIn(signIn: SignIn, callback: (String?) -> Unit) {
-        val url = "${BuildConfig.BASE_URL}/api/v1/auth/sign-in"
-
-        val jsonBody = JSONObject().apply {
-            put("email", signIn.email)
-            put("password", signIn.password)
-        }
-
-        val requestBody = jsonBody.toString()
-            .toRequestBody("application/json; charset=utf-8".toMediaType())
-
-        val request = Request.Builder()
-            .url(url)
-            .post(requestBody)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                callback(null)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                callback(response.body?.string())
-            }
-        })
-    }
 
     // SERVICE FUNCTION TO CHANGE CUSTOMER EMAIL
     fun changeEmail(currentEmail: String, newEmail: String, callback: (String?) -> Unit) {

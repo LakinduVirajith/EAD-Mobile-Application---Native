@@ -17,11 +17,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.model.SignIn
-import com.example.ead_mobile_application__native.service.CustomerApiService
+import com.example.ead_mobile_application__native.service.AuthApiService
 
 class SignInActivity : AppCompatActivity() {
-    // INSTANCE OF THE CUSTOMER API SERVICE
-    private val customerApiService = CustomerApiService()
+    // INSTANCE OF THE AUTH API SERVICE
+    private val authApiService = AuthApiService(this)
 
     // TRACK PASSWORD VISIBILITY STATUS
     private var isPasswordVisible = false
@@ -98,16 +98,20 @@ class SignInActivity : AppCompatActivity() {
         if (email != "" && password != "") {
 
             // CALL SIGN-IN METHOD FROM API SERVICE
-            customerApiService.signIn(SignIn(email, password)) { response ->
+            authApiService.signIn(SignIn(email, password)) { response ->
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
                     if (response != null) {
-                        Toast.makeText(this, "Sign In Successful", Toast.LENGTH_SHORT).show()
+                        if(response.code == 200){
+                            Toast.makeText(this, "${response.code}: Sign in successfully!.", Toast.LENGTH_SHORT).show()
 
-                        val intent = Intent(this, HomeActivity::class.java)
-                        startActivity(intent)
+//                            val intent = Intent(this, HomeActivity::class.java)
+//                            startActivity(intent)
+                        }else{
+                            Toast.makeText(this, "${response.code}: Unauthorized. Please check your credentials and try again.", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
-                        Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign Up Failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -115,8 +119,6 @@ class SignInActivity : AppCompatActivity() {
             // ALERT USER TO FILL ALL FIELDS
             Toast.makeText(this, "Please Fill All Fields", Toast.LENGTH_SHORT).show()
         }
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
     }
 
     // FUNCTION TO HANDLE SIGN-UP NAVIGATION
