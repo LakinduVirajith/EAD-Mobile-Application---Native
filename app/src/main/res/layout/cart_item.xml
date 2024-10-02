@@ -10,75 +10,99 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="center"
-        android:background="@color/white" >
+        android:gravity="center" >
 
-        <!--    Product Image     -->
-        <ImageView
-            android:id="@+id/cProductImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/rounded_image"
-            android:clipToOutline="true" />
-
-        <!--    Product Details     -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingHorizontal="12dp" >
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center"
+            android:background="@color/white" >
 
-            <TextView
-                android:id="@+id/cProductName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black20"
-                android:textSize="14sp" />
+            <!--    Product Image     -->
+            <ImageView
+                android:id="@+id/cProductImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded_image"
+                android:clipToOutline="true" />
 
-            <TextView
-                android:id="@+id/cProductPrice"
-                android:layout_width="match_parent"
+            <!--    Product Details     -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primeGreen"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp" >
+
+                <TextView
+                    android:id="@+id/cProductName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black20"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/cProductPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primeGreen"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!--    Quantity Selector     -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="4dp" >
+
+                <ImageView
+                    android:id="@+id/cMinusIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/ic_minus" />
+
+                <TextView
+                    android:id="@+id/cProductQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black20"
+                    android:paddingHorizontal="8dp"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/cPlusIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/ic_plus" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!--    Quantity Selector     -->
+        <!-- Trash Icon -->
         <LinearLayout
+            android:id="@+id/cTrashIcon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center"
-            android:padding="8dp" >
+            android:background="@color/primeRed"
+            android:padding="16dp" >
 
             <ImageView
-                android:id="@+id/cMinusIcon"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:scaleType="centerCrop"
-                android:background="@drawable/ic_minus" />
-
-            <TextView
-                android:id="@+id/cProductQuantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black20"
-                android:paddingHorizontal="12dp"
-                android:textStyle="bold"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/cPlusIcon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:scaleType="centerCrop"
-                android:background="@drawable/ic_plus" />
+                android:background="@drawable/ic_trash" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

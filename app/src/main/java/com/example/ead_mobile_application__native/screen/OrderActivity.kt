@@ -27,7 +27,7 @@ class OrderActivity : AppCompatActivity() {
     private lateinit var emptyOrderText: TextView
 
     // API SERVICE INSTANCE
-    private val orderApiService = OrderApiService()
+    private val orderApiService = OrderApiService(this)
 
     // SAMPLE CART LIST
     private var orderList = listOf(

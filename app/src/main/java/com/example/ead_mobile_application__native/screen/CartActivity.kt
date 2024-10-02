@@ -13,50 +13,42 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.adapter.CartAdapter
+import com.example.ead_mobile_application__native.helper.CartItemTouchHelper
+import com.example.ead_mobile_application__native.adapter.OnCartChangeListener
 import com.example.ead_mobile_application__native.model.Cart
-import com.example.ead_mobile_application__native.model.OrderItem
 import com.example.ead_mobile_application__native.service.CartApiService
+import com.example.ead_mobile_application__native.service.CustomerApiService
 import com.example.ead_mobile_application__native.service.OrderApiService
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class CartActivity : AppCompatActivity() {
+class CartActivity : AppCompatActivity(), OnCartChangeListener {
     // DECLARE VIEWS
     private lateinit var cartRecyclerView: RecyclerView
     private lateinit var layoutView : LinearLayout
     private lateinit var totalPriceText: TextView
     private lateinit var placeOrderButton: Button
+    private lateinit var changeShippingButton: Button
     private lateinit var emptyCartText: TextView
     private lateinit var cartAdapter: CartAdapter
 
     // API SERVICE INSTANCE
+    private val customerApiService = CustomerApiService(this)
     private val cartApiService = CartApiService(this)
-    private val orderApiService = OrderApiService()
+    private val orderApiService = OrderApiService(this)
 
     // SAMPLE CART LIST
-    private var cartList = listOf(
-        Cart(
-            productId = "1",
-            name = "Casual Cotton T-Shirt",
-            price = 19.99,
-            discount = 4.00,
-            imageResId = R.drawable.product_1,
-            quantity = 1
-        ),
-        Cart(
-            productId = "4",
-            name = "Classic Chino Pants",
-            price = 34.99,
-            discount = 7.00,
-            imageResId = R.drawable.product_4,
-            quantity = 2
-        )
-    )
+    private var cartList = mutableListOf<Cart>()
+
+    // TO TRACE SHIPPING DETAILS
+    private var hasShippingDetails = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,12 +82,21 @@ class CartActivity : AppCompatActivity() {
         // SETUP NAVIGATION BAR
         setupBottomNavigationView()
 
+        // CHECK SHIPPING DETAILS AVAILABILITY
+        checkShipping()
+
         // SETUP CART LIST AND ADAPTER
         setupCartList()
 
         // SET UP CLICK LISTENER FOR PLACE ORDER BUTTON
         placeOrderButton.setOnClickListener {
             handlePlaceOrder()
+        }
+
+        // SET UP CLICK LISTENER FOR CHANGE SHIPPING BUTTON
+        changeShippingButton.setOnClickListener{
+            val intent = Intent(this, ShippingDetailsActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -130,68 +131,105 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
-    // FUNCTION TO SETUP CART LIST AND ADAPTER
-    private fun setupCartList() {
-//        cartApiService.cartProducts() { response ->
-//            runOnUiThread {
-//                // UPDATE CART LIST BASED ON RESPONSE
-//                if (response != null) {
-//                    val gson = Gson()
-//                    val productType = object : TypeToken<List<Product>>() {}.type
-//                    updateCartList(gson.fromJson(response, productType))
-//                }
-//            }
-//        }
-
-        // INITIALIZE THE ADEPTER WITH AND CART LIST
-        cartAdapter = CartAdapter(cartList, this)
-        cartRecyclerView.adapter = cartAdapter
-        cartRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        // CALCULATE TOTAL PRICE FROM CART LIST
-        if (cartList.isNotEmpty()) {
-            var calTotalPrice = 0.00
-            cartList.map { cartItem ->
-                calTotalPrice += cartItem.price * cartItem.quantity
+    // FUNCTION TO CHECK AVAILABILITY OF THE SHIPPING DETAILS
+    private fun checkShipping(){
+        customerApiService.checkShipping() { result ->
+            runOnUiThread {
+                result.onSuccess { isAvailable ->
+                    hasShippingDetails = isAvailable
+                }.onFailure { error ->
+                    val errorMessage = error.message ?: "Failed to fetch shipping details."
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                }
             }
-            totalPriceText.text = getString(R.string.price_format, calTotalPrice)
-        }
-
-        // HANDLE CART VISIBILITY BASED ON ITEMS IN THE CART
-        if (cartList.isEmpty()) {
-            layoutView.visibility = View.GONE
-            emptyCartText.visibility = View.VISIBLE
-        }else{
-            layoutView.visibility = View.VISIBLE
-            emptyCartText.visibility = View.GONE
         }
     }
 
-    // FUNCTION TO UPDATE CART LIST
-    private fun updateCartList(items: List<Cart>) {
-        cartList = items
-        cartAdapter.updateItems(items)
+    // FUNCTION TO SETUP CART LIST AND ADAPTER
+    private fun setupCartList() {
+        cartAdapter = CartAdapter(cartList, this, this)
+        cartRecyclerView.adapter = cartAdapter
+        cartRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        // SET UP ITEM TOUCH HELPER
+        val itemTouchHelper = ItemTouchHelper(CartItemTouchHelper(cartAdapter))
+        itemTouchHelper.attachToRecyclerView(cartRecyclerView)
+
+        loadCart()
+    }
+
+    // IMPLEMENT THE CALLBACK METHOD
+    override fun onCartChanged(cartItems: List<Cart>) {
+        updateTotalPrice(cartItems)
+    }
+
+    private fun updateTotalPrice(cartItems: List<Cart>) {
+        var calTotalPrice = 0.00
+        cartItems.forEach { cartItem ->
+            calTotalPrice += cartItem.price * cartItem.quantity
+        }
+        totalPriceText.text = getString(R.string.price_format, calTotalPrice)
+    }
+
+    // FUNCTION TO LOAD CART
+    private fun loadCart(){
+        cartApiService.cartProducts() { result ->
+            runOnUiThread {
+                // UPDATE CART LIST BASED ON RESPONSE
+                if (result.isSuccess) {
+                    val cartItems = result.getOrNull() ?: emptyList()
+                    cartAdapter.updateItems(cartItems)
+
+                    updateTotalPrice(cartItems)
+
+                    // HANDLE CART VISIBILITY BASED ON ITEMS IN THE CART
+                    if (cartItems.isEmpty()) {
+                        layoutView.visibility = View.GONE
+                        emptyCartText.visibility = View.VISIBLE
+                    }else{
+                        layoutView.visibility = View.VISIBLE
+                        emptyCartText.visibility = View.GONE
+                    }
+                }
+                // HANDLE ERROR (SHOW TOAST, LOG ERROR, ETC.)
+                else {
+                    layoutView.visibility = View.VISIBLE
+                    emptyCartText.visibility = View.GONE
+
+                    val error = result.exceptionOrNull()?.message ?: "Load failed. Please check your internet connection or try again."
+                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     // FUNCTION TO HANDLE PLACE ORDER LOGIC
     private fun handlePlaceOrder(){
+        if(!hasShippingDetails){
+            val intent = Intent(this, ShippingDetailsActivity::class.java)
+            startActivity(intent)
+            return
+        }
         if(cartList.isNotEmpty()){
-            // CONVERT CART LIST TO ORDER ITEM LIST
-            val orderItems = cartList.map { cartItem ->
-                OrderItem(
-                    productId = cartItem.productId,
-                    quantity = cartItem.quantity
-                )
-            }
+            // GET TODAY'S DATE AND FORMAT IT TO "2000-10-31" STYLE
+            val todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
             // PLACE THE ORDER USING THE ORDER ITEM LIST
-            orderApiService.placeOrder(orderItems) { response ->
-                if (response != null) {
-                    Toast.makeText(this, "Order Placed Successful", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, OrderActivity::class.java)
-                    startActivity(intent)
+            orderApiService.placeOrder(todayDate) { status, message ->
+                if (status != null) {
+                    when (status) {
+                        200 -> {
+                            Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                        }
+                        401 -> {
+                            Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {
+                            Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else {
-                    Toast.makeText(this, "Order Placed Failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Change password failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                 }
             }
         }

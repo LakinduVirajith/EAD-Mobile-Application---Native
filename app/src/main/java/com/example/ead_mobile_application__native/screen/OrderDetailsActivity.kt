@@ -24,7 +24,7 @@ class OrderDetailsActivity : AppCompatActivity() {
     private lateinit var orderDetailsAdapter: OrderDetailsAdapter
 
     // API SERVICE INSTANCE
-    private val orderApiService = OrderApiService()
+    private val orderApiService = OrderApiService(this)
 
     // SAMPLE ORDER DETAIL LIST
     private var detailList = listOf(
