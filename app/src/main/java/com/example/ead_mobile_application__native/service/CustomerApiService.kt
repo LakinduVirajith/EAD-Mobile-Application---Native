@@ -145,4 +145,32 @@ class CustomerApiService(private val context: Context) {
 
         ApiUtils.makeRequest(request, callback)
     }
+
+    // FUNCTION TO DEACTIVATE ACCOUNT
+    fun checkShipping(callback: (result: Result<Boolean>) -> Unit) {
+        val url = "${BuildConfig.BASE_URL}/user/check/shipping"
+
+        val request = Request.Builder()
+            .url(url)
+            .get()
+            .addHeader("Authorization", "Bearer ${authApiService.accessToken()}")
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callback(Result.failure(Exception("408: Shipping details fetching failed: Please check your internet connection.")))
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    response.body?.string()?.let { responseBody ->
+                        val isAvailable = JSONObject(responseBody).optBoolean("body", false)
+                        callback(Result.success(isAvailable))
+                    } ?: callback(Result.failure(Exception("500: Error parsing shipping data.")))
+                } else {
+                    callback(Result.failure(Exception("${response.code}: ${response.message}")))
+                }
+            }
+        })
+    }
 }

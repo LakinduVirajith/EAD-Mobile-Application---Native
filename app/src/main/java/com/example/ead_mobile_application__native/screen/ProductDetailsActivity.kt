@@ -246,7 +246,7 @@ class ProductDetailsActivity : AppCompatActivity() {
                             }
                         }
                     } else {
-                        Toast.makeText(this, "Change password failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Add to cart failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

@@ -68,6 +68,17 @@
             android:layout_height="wrap_content"
             android:text="@string/place_order"
             android:height="64dp"
+            android:layout_marginBottom="18dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_background" />
+
+        <Button
+            android:id="@+id/cBtnChangeShipping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change_shipping"
+            android:height="64dp"
+            android:layout_marginBottom="18dp"
             android:textColor="@android:color/white"
             android:background="@drawable/button_background" />
     </LinearLayout>
