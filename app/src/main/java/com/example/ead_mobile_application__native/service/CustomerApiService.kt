@@ -16,6 +16,8 @@ import java.io.IOException
 
 class CustomerApiService(private val context: Context) {
     private val client = OkHttpClient()
+
+    // INSTANCE OF THE AUTH API SERVICES
     private val authApiService = AuthApiService(context)
 
     // FUNCTION TO CHANGE CUSTOMER EMAIL

@@ -35,7 +35,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var cartAdapter: CartAdapter
 
     // API SERVICE INSTANCE
-    private val cartApiService = CartApiService()
+    private val cartApiService = CartApiService(this)
     private val orderApiService = OrderApiService()
 
     // SAMPLE CART LIST
@@ -144,7 +144,7 @@ class CartActivity : AppCompatActivity() {
 //        }
 
         // INITIALIZE THE ADEPTER WITH AND CART LIST
-        cartAdapter = CartAdapter(cartList)
+        cartAdapter = CartAdapter(cartList, this)
         cartRecyclerView.adapter = cartAdapter
         cartRecyclerView.layoutManager = LinearLayoutManager(this)
 

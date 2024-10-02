@@ -7,10 +7,12 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.WindowInsetsController
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +27,6 @@ import com.example.ead_mobile_application__native.adapter.ProductAdapter
 import com.example.ead_mobile_application__native.model.Product
 import com.example.ead_mobile_application__native.service.ProductApiService
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class HomeActivity : AppCompatActivity() {
     // DECLARE VIEWS
@@ -34,6 +34,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var searchEditText: EditText
     private lateinit var productRecyclerView: RecyclerView
     private lateinit var productAdapter: ProductAdapter
+    private lateinit var noProductTextView: TextView
 
     // HANDLER FOR BANNER SLIDING
     private lateinit var handler: Handler
@@ -41,53 +42,16 @@ class HomeActivity : AppCompatActivity() {
     private var searchRunnable: Runnable? = null
 
     // API SERVICE INSTANCE
-    private val productApiService = ProductApiService()
+    private val productApiService = ProductApiService(this)
 
-    // SAMPLE PRODUCT LIST
-    private var productList = listOf(
-        Product(
-            productId = "1",
-            imageResId = R.drawable.product_1,
-            name = "Casual Cotton T-Shirt",
-            price = 19.99,
-            discount = 4.00
-        ),
-        Product(
-            productId = "2",
-            imageResId = R.drawable.product_2,
-            name = "Slim Fit Jeans",
-            price = 39.99,
-            discount = 10.00
-        ),
-        Product(
-            productId = "3",
-            imageResId = R.drawable.product_3,
-            name = "Lightweight Hoodie",
-            price = 29.99,
-            discount = 5.00
-        ),
-        Product(
-            productId = "4",
-            imageResId = R.drawable.product_4,
-            name = "Classic Chino Pants",
-            price = 34.99,
-            discount = 7.00
-        ),
-        Product(
-            productId = "5",
-            imageResId = R.drawable.product_5,
-            name = "Summer Dress",
-            price = 49.99,
-            discount = 15.00
-        ),
-        Product(
-            productId = "6",
-            imageResId = R.drawable.product_6,
-            name = "Stylish Sneakers",
-            price = 59.99,
-            discount = 10.00
-        )
-    )
+    // INITIALIZE PAGE NUMBER AND SIZE
+    private var pageNumber = 1
+    private var pageSize = 4
+    private var currentSearchQuery: String? = null
+    private var isLoading = false
+
+    // PRODUCT LIST
+    private var productList = mutableListOf<Product>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,6 +79,7 @@ class HomeActivity : AppCompatActivity() {
         viewPager = findViewById(R.id.hBannerViewPager)
         searchEditText = findViewById(R.id.hSearch)
         productRecyclerView = findViewById(R.id.hProductRecyclerView)
+        noProductTextView = findViewById(R.id.hNoProductTextView)
 
         // SET CLICK LISTENER FOR SEARCH ICON
         val searchIcon = findViewById<ImageView>(R.id.hSearchIcon)
@@ -128,11 +93,14 @@ class HomeActivity : AppCompatActivity() {
         // SETUP BANNER VIEW PAGER
         setupBannerView()
 
+        // SETUP PRODUCT LIST AND ADAPTER
+        setupProductList()
+
         // SETUP SEARCH FUNCTIONALITY
         setupSearchFunctionality()
 
-        // SETUP PRODUCT LIST AND ADAPTER
-        setupProductList()
+        // SETUP PRODUCT PRODUCT LIST SCROLL
+        setupRecyclerViewScrollListener()
     }
 
     // SETUP BOTTOM NAVIGATION VIEW AND ITS ITEM SELECTION
@@ -204,23 +172,43 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
-    // FUNCTION TO SETUP PRODUCT LIST AND ADAPTER
+    // FUNCTION TO SETUP PRODUCT LIST AND ADAPTER WITH ENDLESS SCROLLING
     private fun setupProductList() {
-//        productApiService.fetchHomeProducts() { response ->
-//            runOnUiThread {
-//                // UPDATE PRODUCT LIST BASED ON RESPONSE
-//                if (response != null) {
-//                    val gson = Gson()
-//                    val productType = object : TypeToken<List<Product>>() {}.type
-//                    updateProductList(gson.fromJson(response, productType))
-//                }
-//            }
-//        }
-
-        // INITIALIZE THE ADEPTER WITH AND EMPTY PRODUCT LIST
         productAdapter = ProductAdapter(productList)
         productRecyclerView.adapter = productAdapter
         productRecyclerView.layoutManager = GridLayoutManager(this, 2)
+        loadProducts()
+    }
+
+    // FUNCTION TO LOAD PRODUCTS
+    private fun loadProducts() {
+        if (isLoading) return
+        isLoading = true
+        productApiService.fetchHomeProducts(pageNumber = pageNumber, pageSize = pageSize) { result ->
+            runOnUiThread {
+                // HANDLE SUCCESS OR FAILURE RESULT
+                if (result.isSuccess) {
+                    val products = result.getOrNull() ?: emptyList()
+                    productAdapter.addMoreProducts(products)
+
+                    // SHOW OR HIDE THE PRODUCTS TEXTVIEW BASED ON THE LIST SIZE
+                    if (products.isEmpty() && pageNumber == 1) {
+                        noProductTextView.visibility = View.VISIBLE
+                        noProductTextView.text = getString(R.string.no_product)
+                    } else {
+                        noProductTextView.visibility = View.GONE
+                    }
+
+                    pageNumber++
+                }
+                // HANDLE ERROR (SHOW TOAST, LOG ERROR, ETC.)
+                else {
+                    val error = result.exceptionOrNull()?.message ?: "Load failed. Please check your internet connection or try again."
+                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                }
+                isLoading = false
+            }
+        }
     }
 
     // FUNCTION TO SETUP SEARCH FUNCTIONALITY
@@ -246,32 +234,72 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
-    // FUNCTION TO UPDATE PRODUCT LIST
-    private fun updateProductList(products: List<Product>) {
-        productList = products
-        productAdapter.updateProducts(products)
+    // FUNCTION TO PERFORM SEARCH
+    private fun performSearch(query: String, isPagination: Boolean = false) {
+        // CHECK IF SEARCH FIELDS IS FILLED
+        if (query.isNotEmpty()) {
+            if (!isPagination) {
+                productAdapter.updateProducts(emptyList())
+                pageNumber = 1 // REST PAGE ONLY WHEN IT'S A NEW SEARCH
+            }
+
+            currentSearchQuery = query
+            Toast.makeText(this, "Looking for '$query'. Please wait...", Toast.LENGTH_LONG).show()
+            // CALL SEARCH METHOD FROM API SERVICE
+            productApiService.searchProducts(search =  query, pageSize = pageSize, pageNumber = pageNumber) { result ->
+                runOnUiThread {
+                    // UPDATE PRODUCT LIST BASED ON RESPONSE
+                    if (result.isSuccess) {
+                        val products = result.getOrNull() ?: emptyList()
+                        if(pageSize == 1){
+                            productAdapter.updateProducts(products)
+                        }else{
+                            productAdapter.addMoreProducts(products)
+                        }
+
+                        // CHECK IF NO PRODUCTS WERE FOUND
+                        if (products.isEmpty() && pageNumber == 1) {
+                            noProductTextView.visibility = View.VISIBLE
+                            noProductTextView.text = getString(R.string.search_error, query)
+                        } else {
+                            noProductTextView.visibility = View.GONE
+                        }
+                    }
+                    // HANDLE ERROR (SHOW TOAST, LOG ERROR, ETC.)
+                    else {
+                        val error = result.exceptionOrNull()?.message ?: "Search failed. Please check your internet connection or try again."
+                        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        } else {
+            currentSearchQuery = null
+            pageNumber = 1
+            productAdapter.updateProducts(emptyList())
+            loadProducts()
+        }
     }
 
-    // FUNCTION TO PERFORM SEARCH
-    private fun performSearch(query: String) {
-//        // CHECK IF SEARCH FIELDS IS FILLED
-//        if (query != "") {
-//            // CALL SEARCH METHOD FROM API SERVICE
-//            productApiService.searchProducts(query) { response ->
-//                runOnUiThread {
-//                    // UPDATE PRODUCT LIST BASED ON RESPONSE
-//                    if (response != null) {
-//                        val gson = Gson()
-//                        val productType = object : TypeToken<List<Product>>() {}.type
-//                        updateProductList(gson.fromJson(response, productType))
-//                    }
-//                }
-//            }
-//        } else {
-//            setupProductList()
-//        }
+    // SETUP RECYCLER VIEW SCROLL LISTENER FOR ENDLESS SCROLLING
+    private fun setupRecyclerViewScrollListener() {
+        productRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as GridLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-        Toast.makeText(this, "Searching for: $query", Toast.LENGTH_SHORT).show()
+                if (!isLoading && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
+                    if (currentSearchQuery != null && currentSearchQuery!!.isNotEmpty()) {
+                        pageNumber++
+                        performSearch(currentSearchQuery!!, isPagination = true)
+                    } else {
+                        loadProducts()
+                    }
+                }
+            }
+        })
     }
 
     // STOP SLIDING TO PREVENT MEMORY LEAKS
