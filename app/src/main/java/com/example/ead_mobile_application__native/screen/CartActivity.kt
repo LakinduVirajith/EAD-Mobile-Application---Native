@@ -77,6 +77,7 @@ class CartActivity : AppCompatActivity(), OnCartChangeListener {
         layoutView = findViewById(R.id.cLayoutView)
         totalPriceText = findViewById(R.id.cTotalPriceText)
         placeOrderButton = findViewById(R.id.cBtnPlaceOrder)
+        changeShippingButton = findViewById(R.id.cBtnChangeShipping)
         emptyCartText = findViewById(R.id.cEmptyCartText)
 
         // SETUP NAVIGATION BAR

@@ -92,4 +92,16 @@
     <string name="vendor_rating">Rating: </string>
     <string name="send">send</string>
     <string name="order_details">Order Details</string>
+
+    <!--   SHIPPING DETAILS ACTIVITY    -->
+    <string name="shipping_details">Shipping Details</string>
+    <string name="shipping_address">Shipping Address</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="postal_code">Postal Code</string>
+    <string name="add_shipping">Add Shipping</string>
+    <string name="location_icon">Location Icon</string>
+    <string name="city_icon">City Icon</string>
+    <string name="state_icon">State Icon</string>
+    <string name="postal_code_icon">Postal Code Icon</string>
 </resources>
