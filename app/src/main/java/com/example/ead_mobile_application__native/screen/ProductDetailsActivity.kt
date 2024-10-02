@@ -15,37 +15,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.model.ProductDetails
 import com.example.ead_mobile_application__native.service.CartApiService
 import com.example.ead_mobile_application__native.service.ProductApiService
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class ProductDetailsActivity : AppCompatActivity() {
     // API SERVICE INSTANCE
-    private val productApiService = ProductApiService()
-    private val cartApiService = CartApiService()
+    private val productApiService = ProductApiService(this)
+    private val cartApiService = CartApiService(this)
 
     // DECLARE VARIABLES
     private lateinit var selectedSize: String
     private lateinit var selectedColor: String
     private var selectedQuantity: Int = 1
 
-    // SAMPLE PRODUCT DETAILS
-    private var productDetails: ProductDetails = ProductDetails(
-        productId = "1",
-        imageResId = R.drawable.product_1,
-        name = "Casual Cotton T-Shirt",
-        price = 19.99,
-        discount = 4.00,
-        size = listOf("S", "M", "L"),
-        color = listOf("Black", "Green", "Orange"),
-        description = "Elevate your casual wardrobe with our Casual Cotton T-Shirt. Made from 100% premium cotton, this t-shirt offers unmatched comfort and breathability. Its classic fit is perfect for everyday wear, whether you're out with friends or lounging at home. Available in a variety of colors, this versatile t-shirt pairs well with jeans, shorts, or joggers. Designed to withstand multiple washes while maintaining its shape and color, it's a must-have for every fashion enthusiast.",
-        category = "Clothing",
-        stockQuantity = 50,
-        rating = 4.6f
-    )
+    // PRODUCT DETAILS
+    private lateinit var productDetails: ProductDetails
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,12 +58,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         // SETUP VIEW DETAILS
         setupViewDetails()
-
-        // SETUP SPINNER VIEWS
-        setupSpinner()
-
-        // SETUP QUANTITY SELECTOR
-        setupQuantitySelector()
     }
 
     // HANDLE THE DEFAULT BACK BUTTON PRESS
@@ -87,27 +68,37 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     // FUNCTION TO SETUP VIEW DETAILS
     private fun setupViewDetails() {
-        val productId = intent.getIntExtra("product_id", 0)
+        val productId = intent.getStringExtra("product_id")
 
-//        // FETCH PRODUCT DETAILS
-//        if(productId != null){
-//            productApiService.fetchProductDetails(productId) { response ->
-//                runOnUiThread {
-//                    if (response != null) {
-//                        val gson = Gson()
-//                        val productType = object : TypeToken<ProductDetails>() {}.type
-//                        productDetails = gson.fromJson(response, productType)
-//                    }
-//                }
-//            }
-//        }
+        // FETCH PRODUCT DETAILS
+        if(productId != null){
+            productApiService.fetchProductDetails(productId) { response ->
+                runOnUiThread {
+                    if (response.isSuccess) {
+                        productDetails = response.getOrNull() ?: run {
+                            Toast.makeText(this, "Product details are empty", Toast.LENGTH_LONG).show()
+                            return@runOnUiThread
+                        }
 
-        // SET UP THE CART ICON CLICK LISTENER
-        val cartIcon: ImageView = findViewById(R.id.pdCartIcon)
-        cartIcon.setOnClickListener {
-            handleCart(productId)
+                        // PROCEED WITH UI UPDATE ONLY AFTER PRODUCT DETAILS IS VALID
+                        updateProductUI()
+                    }
+                    // HANDLE ERROR (SHOW TOAST, LOG ERROR, ETC.)
+                    else {
+                        val error = response.exceptionOrNull()?.message ?: "Failed to fetch products"
+                        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }else{
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
         }
+    }
 
+    // FUNCTION TO UPDATE PRODUCT DETAILS UI
+    private fun updateProductUI(){
         // SET THE PRODUCT NAME
         supportActionBar?.title = ""
         val productNameTextView: TextView = findViewById(R.id.pdProductName)
@@ -115,7 +106,21 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         // SET THE PRODUCT IMAGE
         val productImageView: ImageView = findViewById(R.id.pdProductImage)
-        productImageView.setImageResource(productDetails.imageResId)
+        val imageUri = productDetails.imageUri
+        if (imageUri != null && imageUri.startsWith("R.drawable")) {
+            val drawableName = imageUri.substringAfter("R.drawable.")
+            val drawableId = resources.getIdentifier(drawableName, "drawable", packageName)
+
+            // LOAD THE IMAGE OR FALLBACK TO DEFAULT
+            Glide.with(this)
+                .load(if (drawableId != 0) drawableId else R.drawable.no_image)
+                .into(productImageView)
+        } else {
+            // LOAD URL OR DEFAULT IMAGE
+            Glide.with(this)
+                .load(imageUri ?: R.drawable.no_image)
+                .into(productImageView)
+        }
 
         // SET THE PRODUCT DESCRIPTION
         val productDescriptionTextView: TextView = findViewById(R.id.pdProductDescription)
@@ -131,6 +136,10 @@ class ProductDetailsActivity : AppCompatActivity() {
         val discountPrice = productDetails.price - (productDetails.price * productDetails.discount / 100)
         productDiscountTextView.text = getString(R.string.price_format, discountPrice)
 
+        // SET THE PRODUCT BRAND
+        val productRatingTextView: TextView = findViewById(R.id.pdProductBrand)
+        productRatingTextView.text = productDetails.brand.toString()
+
         // SET THE PRODUCT CATEGORY
         val productCategoryTextView: TextView = findViewById(R.id.pdProductCategory)
         productCategoryTextView.text = productDetails.category
@@ -139,9 +148,17 @@ class ProductDetailsActivity : AppCompatActivity() {
         val productStockQuantityTextView: TextView = findViewById(R.id.pdProductStockQuantity)
         productStockQuantityTextView.text = productDetails.stockQuantity.toString()
 
-        // SET THE PRODUCT RATING
-        val productRatingTextView: TextView = findViewById(R.id.pdProductRating)
-        productRatingTextView.text = productDetails.rating.toString()
+        // SET UP THE CART ICON CLICK LISTENER
+        val cartIcon: ImageView = findViewById(R.id.pdCartIcon)
+        cartIcon.setOnClickListener {
+            handleCart(productDetails.productId)
+        }
+
+        // SETUP SPINNER VIEWS
+        setupSpinner()
+
+        // SETUP QUANTITY SELECTOR
+        setupQuantitySelector()
     }
 
     // FUNCTION TO SETUP SPINNER VIEWS
@@ -205,7 +222,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
     // FUNCTION TO HANDLE CART LOGIC
-    private fun handleCart(productId: Int) {
+    private fun handleCart(productId: String) {
         if(selectedSize.isEmpty()){
             Toast.makeText(this, "Please Select Size of the Product", Toast.LENGTH_SHORT).show()
         }else if(selectedColor.isEmpty()){
@@ -213,16 +230,23 @@ class ProductDetailsActivity : AppCompatActivity() {
         }else if(selectedQuantity.toString().isEmpty() || selectedQuantity < 1){
             Toast.makeText(this, "Invalid Quantity of the Product", Toast.LENGTH_SHORT).show()
         }else{
-            cartApiService.addCart(productId, selectedSize, selectedColor, selectedQuantity) { response ->
+            cartApiService.addCart(productId, selectedSize, selectedColor, selectedQuantity) { status, message ->
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
-                    if (response != null) {
-                        Toast.makeText(this, "Product Added to Cart", Toast.LENGTH_SHORT).show()
-
-                        val intent = Intent(this, CartActivity::class.java)
-                        startActivity(intent)
+                    if (status != null) {
+                        when (status) {
+                            200 -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                            }
+                            401 -> {
+                                Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     } else {
-                        Toast.makeText(this, "Failed to Add Product to Cart", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Change password failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

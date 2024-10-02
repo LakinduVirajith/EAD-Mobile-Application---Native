@@ -47,6 +47,8 @@
     <string name="search">Search</string>
     <string name="search_icon">Search Icon</string>
     <string name="banner_image">Banner Image</string>
+    <string name="no_product">No products available at the moment. Please check back later!</string>
+    <string name="search_error">No products found for \'%1$s\'. Please try a different search</string>
 
     <!--   PRODUCT DETAILS ACTIVITY    -->
     <string name="price_format">$%.2f</string>
@@ -59,9 +61,9 @@
     <string name="plus_icon">Plus Icon</string>
     <string name="price">Price:</string>
     <string name="discount_price">Discount Price</string>
+    <string name="brand">Brand: </string>
     <string name="category">Category: </string>
     <string name="stock_quantity">Stock Quantity: </string>
-    <string name="rating">Rating: </string>
     <string name="cart_icon">Cart Icon</string>
     <string name="product_image">Product Image</string>
 

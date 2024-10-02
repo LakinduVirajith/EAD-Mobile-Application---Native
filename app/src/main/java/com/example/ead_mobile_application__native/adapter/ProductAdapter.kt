@@ -13,7 +13,7 @@ import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.model.Product
 import com.example.ead_mobile_application__native.screen.ProductDetailsActivity
 
-class ProductAdapter(private var products: List<Product>) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+class ProductAdapter(private var products: MutableList<Product>) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val productImage: ImageView = itemView.findViewById(R.id.hProductImage)
@@ -28,38 +28,46 @@ class ProductAdapter(private var products: List<Product>) : RecyclerView.Adapter
         return ProductViewHolder(view)
     }
 
-    fun updateProducts(newProducts: List<Product>) {
-        // STORE OLD PRODUCTS
-        val oldProducts = products
-        products = newProducts
+    override fun getItemCount(): Int {
+        return products.size
+    }
 
-        // NOTIFY ABOUT CHANGES
-        if (oldProducts.size < newProducts.size) {
-            // NOTIFY ITEM RANGE INSERTED
-            notifyItemRangeInserted(oldProducts.size, newProducts.size - oldProducts.size)
-        } else if (oldProducts.size > newProducts.size) {
-            // NOTIFY ITEM RANGE REMOVED
-            notifyItemRangeRemoved(newProducts.size, oldProducts.size - newProducts.size)
-        } else {
-            // NOTIFY ITEM CHANGES
-            for (i in oldProducts.indices) {
-                if (oldProducts[i] != newProducts[i]) {
-                    notifyItemChanged(i)
-                }
-            }
-        }
+    // FUNCTION TO UPDATE PRODUCTS AND NOTIFY THE ADAPTER
+    fun updateProducts(newProducts: List<Product>) {
+        products.clear()
+        products.addAll(newProducts)
+        notifyDataSetChanged()
+    }
+
+    // FUNCTION TO ADD MORE PRODUCTS FOR PAGINATION
+    fun addMoreProducts(moreProducts: List<Product>) {
+        val startPos = products.size
+        products.addAll(moreProducts)
+        notifyItemRangeInserted(startPos, moreProducts.size)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = products[position]
-        Glide.with(holder.itemView.context)
-            .load(product.imageResId)
-            .into(holder.productImage)
-        holder.productName.text = if (product.name.length > 15) {
-            product.name.substring(0, 15) + "..."
+
+        // CHECK IF IMAGE IS A RESOURCE ID OR URL
+        val imageUri = product.imageUri
+        if (imageUri != null && imageUri.startsWith("R.drawable")) {
+            // EXTRACT DRAWABLE NAME AND GET ITS ID
+            val drawableName = imageUri.substringAfter("R.drawable.")
+            val drawableId = holder.itemView.context.resources.getIdentifier(drawableName, "drawable", holder.itemView.context.packageName)
+
+            // LOAD THE IMAGE OR FALLBACK TO DEFAULT
+            Glide.with(holder.itemView.context)
+                .load(if (drawableId != 0) drawableId else R.drawable.no_image)
+                .into(holder.productImage)
         } else {
-            product.name
+            // LOAD URL OR DEFAULT IMAGE
+            Glide.with(holder.itemView.context)
+                .load(imageUri ?: R.drawable.no_image)
+                .into(holder.productImage)
         }
+
+        holder.productName.text = if (product.name.length > 15) "${product.name.substring(0, 15)}..." else product.name
         holder.productPrice.text = holder.itemView.context.getString(R.string.price_format, product.price)
         holder.productPrice.paintFlags =  holder.productPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
@@ -77,6 +85,4 @@ class ProductAdapter(private var products: List<Product>) : RecyclerView.Adapter
             context.startActivity(intent)
         }
     }
-
-    override fun getItemCount(): Int = products.size
 }

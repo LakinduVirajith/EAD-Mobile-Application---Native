@@ -57,6 +57,20 @@
             android:layout_height="150dp"
             android:layout_marginBottom="24dp"/>
 
+        <!-- Empty Product Text-->
+        <TextView
+            android:id="@+id/hNoProductTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="154dp"
+            android:paddingHorizontal="38dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/black20"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
         <!-- Product List Section -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hProductRecyclerView"

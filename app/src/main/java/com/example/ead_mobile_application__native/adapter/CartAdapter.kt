@@ -1,5 +1,6 @@
 package com.example.ead_mobile_application__native.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,9 @@ import com.example.ead_mobile_application__native.model.Cart
 import com.example.ead_mobile_application__native.screen.ProductDetailsActivity
 import com.example.ead_mobile_application__native.service.CartApiService
 
-class CartAdapter(private var items: List<Cart>) : RecyclerView.Adapter<CartAdapter.CartViewHolder>(){
+class CartAdapter(private var items: List<Cart>, private val context: Context) : RecyclerView.Adapter<CartAdapter.CartViewHolder>(){
     // API SERVICE INSTANCE
-    private val cartApiService = CartApiService()
+    private val cartApiService = CartApiService(context)
 
     inner class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val productImage: ImageView = itemView.findViewById(R.id.cProductImage)
