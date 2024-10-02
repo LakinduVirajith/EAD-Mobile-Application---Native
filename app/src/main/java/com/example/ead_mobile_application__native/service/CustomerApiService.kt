@@ -3,6 +3,7 @@ package com.example.ead_mobile_application__native.service
 import android.content.Context
 import com.example.ead_mobile_application__native.BuildConfig
 import com.example.ead_mobile_application__native.model.CustomerDetails
+import com.example.ead_mobile_application__native.model.ShippingDetails
 import com.example.ead_mobile_application__native.utils.ApiUtils
 import okhttp3.Call
 import okhttp3.Callback
@@ -146,7 +147,7 @@ class CustomerApiService(private val context: Context) {
         ApiUtils.makeRequest(request, callback)
     }
 
-    // FUNCTION TO DEACTIVATE ACCOUNT
+    // FUNCTION TO CHECK SHIPPING
     fun checkShipping(callback: (result: Result<Boolean>) -> Unit) {
         val url = "${BuildConfig.BASE_URL}/user/check/shipping"
 
@@ -172,5 +173,66 @@ class CustomerApiService(private val context: Context) {
                 }
             }
         })
+    }
+
+    // FUNCTION TO GET SHIPPING DETAILS
+    fun getShippingDetails(callback: (ShippingDetails?) -> Unit) {
+        val url = "${BuildConfig.BASE_URL}/user/get/shipping"
+
+        val request = Request.Builder()
+            .url(url)
+            .get()
+            .addHeader("Authorization", "Bearer ${authApiService.accessToken()}")
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callback(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+
+                    if (responseBody != null) {
+                        val jsonObject = JSONObject(responseBody)
+
+                        callback(ShippingDetails(
+                            address = jsonObject.getString("address"),
+                            city = jsonObject.getString("city"),
+                            state = jsonObject.getString("state"),
+                            postalCode = jsonObject.getString("postalCode"),
+                        ))
+                    } else {
+                        callback(null)
+                    }
+                } else {
+                    callback(null)
+                }
+            }
+        })
+    }
+
+    // FUNCTION TO UPDATE SHIPPING DETAILS
+    fun updateShippingDetails(shippingDetails: ShippingDetails, callback: (Int?, String?) -> Unit) {
+        val url = "${BuildConfig.BASE_URL}/user/update/shipping"
+
+        val jsonBody = JSONObject().apply {
+            put("address", shippingDetails.address.trim())
+            put("city", shippingDetails.city.trim())
+            put("state", shippingDetails.state.trim())
+            put("postalCode", shippingDetails.postalCode.trim())
+        }
+
+        val requestBody = jsonBody.toString()
+            .toRequestBody("application/json; charset=utf-8".toMediaType())
+
+        val request = Request.Builder()
+            .url(url)
+            .put(requestBody)
+            .addHeader("Authorization", "Bearer ${authApiService.accessToken()}")
+            .build()
+
+        ApiUtils.makeRequest(request, callback)
     }
 }
