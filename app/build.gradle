@@ -12,6 +12,10 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+// Check if properties are loaded
+def backendUrl = localProperties['backend_url'] ?: 'http://default.url'
+def secretKey = localProperties['secret_key'] ?: 'default_secret_key'
+
 android {
     namespace 'com.example.ead_mobile_application__native'
     compileSdk 34
@@ -26,7 +30,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         // Pass the backend_url to BuildConfig
-        buildConfigField "String", "BASE_URL", "\"${localProperties['backend_url']}\""
+        buildConfigField "String", "BASE_URL", "\"${backendUrl}\""
+        // Pass the secret_key to BuildConfig
+        buildConfigField "String", "SECRET_KEY", "\"${secretKey}\""
     }
 
     buildTypes {
@@ -72,4 +78,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     // Glide library for image loading and caching
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    // JWT for token handling
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }

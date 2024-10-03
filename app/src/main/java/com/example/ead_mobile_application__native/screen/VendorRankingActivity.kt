@@ -14,10 +14,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.service.VendorApiService
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class VendorRankingActivity : AppCompatActivity() {
     // API SERVICE INSTANCE
-    private val vendorApiService = VendorApiService()
+    private val vendorApiService = VendorApiService(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +51,17 @@ class VendorRankingActivity : AppCompatActivity() {
         val btnOrderDetails = findViewById<Button>(R.id.vrBtnOrderDetails)
 
         // SETUP VIEW DETAILS
-        val orderIdNumber = intent.getIntExtra("order_id", 0)
-        setupViewDetails(orderIdNumber)
+        val orderId = intent.getStringExtra("order_id")
+        setupViewDetails(orderId)
 
         // HANDLE SEND BUTTON CLICK
         btnSend.setOnClickListener {
-            handleSend(commentEditText, ratingBar)
+            handleSend(orderId, commentEditText, ratingBar)
         }
 
         // HANDLE NAVIGATION BUTTON CLICK
         btnOrderDetails.setOnClickListener {
-            handleNavigation(orderIdNumber)
+            handleNavigation(orderId)
         }
     }
 
@@ -69,15 +72,15 @@ class VendorRankingActivity : AppCompatActivity() {
     }
 
     // FUNCTION TO SETUP VIEW DETAILS
-    private fun setupViewDetails(orderId: Int) {
+    private fun setupViewDetails(orderId: String?) {
         // GET THE ORDER ID FROM INTENT AND SET THE ORDER ID
         supportActionBar?.title = ""
         val orderIDTextView: TextView = findViewById(R.id.vrOrderID)
-        orderIDTextView.text = String.format(getString(R.string.order_id_format), orderId)
+        orderIDTextView.text = orderId
     }
 
     // FUNCTION TO HANDLE SEND LOGIC
-    private fun handleSend(commentEditText: EditText, ratingBar: RatingBar) {
+    private fun handleSend(vendorId: String?, commentEditText: EditText, ratingBar: RatingBar) {
         // RETRIEVE INPUT VALUES
         val comment = commentEditText.text.toString()
         val rating = ratingBar.rating.toString()
@@ -88,17 +91,29 @@ class VendorRankingActivity : AppCompatActivity() {
         } else if(rating.isEmpty()){
             Toast.makeText(this, "Please Select Ratings", Toast.LENGTH_SHORT).show()
         }else {
+            // GET TODAY'S DATE AND FORMAT IT TO "2000-10-31" STYLE
+            val todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
             // CALL RANKING METHOD FROM API SERVICE
-            vendorApiService.addRanking(comment, rating.toInt()) { response ->
+            vendorApiService.addRanking(vendorId, comment, rating.toInt(), todayDate) { status, message ->
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
-                    if (response != null) {
-                        Toast.makeText(this, "Send Successful", Toast.LENGTH_SHORT).show()
-
-                        val intent = Intent(this, OrderActivity::class.java)
-                        startActivity(intent)
+                    if (status != null) {
+                        when (status) {
+                            200 -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, OrderActivity::class.java)).also { finish() }
+                            }
+                            401 -> {
+                                Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, OrderActivity::class.java)).also { finish() }
+                            }
+                            else -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     } else {
-                        Toast.makeText(this, "Send Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sending failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -106,7 +121,7 @@ class VendorRankingActivity : AppCompatActivity() {
     }
 
     // FUNCTION TO HANDLE NAVIGATION
-    private fun handleNavigation(orderId: Int){
+    private fun handleNavigation(orderId: String?){
         val intent = Intent(this, OrderDetailsActivity::class.java).apply {
             putExtra("order_id", orderId)
         }

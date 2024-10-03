@@ -70,8 +70,8 @@
             <!-- Product Image -->
             <ImageView
                 android:id="@+id/pdProductImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
                 android:scaleType="centerCrop"
                 android:background="@drawable/rounded_image"
                 android:contentDescription="@string/product_image" />
@@ -276,6 +276,37 @@
                 android:layout_marginHorizontal="16dp"
                 android:background="@color/black20" />
 
+            <!-- Product Brand -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/brand"
+                    android:textSize="18sp"
+                    android:textColor="@color/black20" />
+
+                <TextView
+                    android:id="@+id/pdProductBrand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/black20" />
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@color/black20" />
+
             <!-- Product Category -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -325,37 +356,6 @@
 
                 <TextView
                     android:id="@+id/pdProductStockQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/black20" />
-            </LinearLayout>
-
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@color/black20" />
-
-            <!-- Product Rating -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/rating"
-                    android:textSize="18sp"
-                    android:textColor="@color/black20" />
-
-                <TextView
-                    android:id="@+id/pdProductRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"

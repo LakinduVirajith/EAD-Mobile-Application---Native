@@ -1,11 +1,15 @@
 package com.example.ead_mobile_application__native.model
 
 data class OrderDetails (
-    val productId: Int,
-    val productName: String,
-    val imageResId: Int,
-    val price: Double,
-    val quantity: Int,
-    val size: String,
-    val color: String
+    val orderId: String,
+    val orderDate: String,
+    val status: String,
+    val totalOrderPrice: Double,
+    val phoneNumber: String,
+    val userName: String,
+    val address: String,
+    val city: String,
+    val state: String,
+    val postalCode: String,
+    val orderItemDetails: List<OrderProductDetails>
 )
