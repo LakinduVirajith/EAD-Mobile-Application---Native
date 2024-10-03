@@ -105,4 +105,8 @@
     <string name="city_icon">City Icon</string>
     <string name="state_icon">State Icon</string>
     <string name="postal_code_icon">Postal Code Icon</string>
+
+    <!--    CANCEL ORDER ACTIVITY   -->
+    <string name="reason_to_cancel">Reason to cancel</string>
+    <string name="cancel">Cancel</string>
 </resources>
