@@ -9,9 +9,11 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
@@ -119,5 +121,26 @@ class OrderApiService(private val context: Context) {
                 }
             }
         })
+    }
+
+    // SERVICE FUNCTION TO CANCEL THE ORDER
+    fun cancelOrder(vendorId: String?, cancellationReason: String, callback: (Int? ,String?) -> Unit) {
+        val url = "${BuildConfig.BASE_URL}/order/cancellation"
+
+        val jsonBody = JSONObject().apply {
+            put("vendorId", vendorId?.trim())
+            put("cancellationReason", cancellationReason.trim())
+        }
+
+        val requestBody = jsonBody.toString()
+            .toRequestBody("application/json; charset=utf-8".toMediaType())
+
+        val request = Request.Builder()
+            .url(url)
+            .put(requestBody)
+            .addHeader("Authorization", "Bearer ${authApiService.accessToken()}")
+            .build()
+
+        ApiUtils.makeRequest(request, callback)
     }
 }
