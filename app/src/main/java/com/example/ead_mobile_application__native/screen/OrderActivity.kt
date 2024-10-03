@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsetsController
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ead_mobile_application__native.R
@@ -29,65 +31,14 @@ class OrderActivity : AppCompatActivity() {
     // API SERVICE INSTANCE
     private val orderApiService = OrderApiService(this)
 
-    // SAMPLE CART LIST
-    private var orderList = listOf(
-        Order(
-            orderId = 1,
-            productImageResId = R.drawable.product_2,
-            orderDate = "2024/09/12",
-            status = "Pending",
-            totalOrderPrice = 245.65
-        ),
-        Order(
-            orderId = 2,
-            productImageResId = R.drawable.product_1,
-            orderDate = "2024/09/14",
-            status = "Processing",
-            totalOrderPrice = 164.25
-        ),
-        Order(
-            orderId = 3,
-            productImageResId = R.drawable.product_6,
-            orderDate = "2024/09/16",
-            status = "Shipped",
-            totalOrderPrice = 241.75
-        ),
-        Order(
-            orderId = 4,
-            productImageResId = R.drawable.product_2,
-            orderDate = "2024/09/16",
-            status = "Delivered",
-            totalOrderPrice = 241.75
-        ),
-        Order(
-            orderId = 5,
-            productImageResId = R.drawable.product_4,
-            orderDate = "2024/09/16",
-            status = "Completed",
-            totalOrderPrice = 545.25
-        ),
-        Order(
-            orderId = 6,
-            productImageResId = R.drawable.product_3,
-            orderDate = "2024/09/19",
-            status = "Cancelled",
-            totalOrderPrice = 80.50
-        ),
-        Order(
-            orderId = 7,
-            productImageResId = R.drawable.product_5,
-            orderDate = "2024/09/20",
-            status = "Refunded",
-            totalOrderPrice = 150.50
-        ),
-        Order(
-            orderId = 8,
-            productImageResId = R.drawable.product_6,
-            orderDate = "2024/09/24",
-            status = "Returned",
-            totalOrderPrice = 425.50
-        )
-    )
+    // INITIALIZE PAGE NUMBER AND SIZE
+    private var pageNumber = 1
+    private var pageSize = 10
+    private var isLoading = false
+    private var isFinish = false
+
+    //  ORDER LIST
+    private var orderList = mutableListOf<Order>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,6 +71,9 @@ class OrderActivity : AppCompatActivity() {
 
         // SETUP ORDER LIST AND ADAPTER
         setupOrderList()
+
+        // SETUP ORDERS LIST SCROLL
+        setupRecyclerViewScrollListener()
     }
 
     // SETUP BOTTOM NAVIGATION VIEW AND ITS ITEM SELECTION
@@ -155,37 +109,61 @@ class OrderActivity : AppCompatActivity() {
 
     // FUNCTION TO SETUP ORDER LIST AND ADAPTER
     private fun setupOrderList() {
-//        orderApiService.fetchOrders() { response ->
-//            runOnUiThread {
-//                // UPDATE ORDER LIST BASED ON RESPONSE
-//                if (response != null) {
-//                    val gson = Gson()
-//                    val productType = object : TypeToken<List<Order>>() {}.type
-//                    updateCartList(gson.fromJson(response, productType))
-//                }
-//            }
-//        }
-
         // INITIALIZE THE ADEPTER WITH AND ORDER LIST
         orderAdapter = OrderAdapter(orderList)
         orderRecyclerView.adapter = orderAdapter
         orderRecyclerView.layoutManager = LinearLayoutManager(this)
+        loadOrders()
+    }
 
+    // FUNCTION TO LOAD ORDERS
+    private fun loadOrders() {
+        if (isLoading || isFinish) return
+        orderApiService.fetchOrders(pageNumber = pageNumber, pageSize = pageSize) { result ->
+            runOnUiThread {
+                // HANDLE SUCCESS OR FAILURE RESULT
+                if (result.isSuccess) {
+                    val orders = result.getOrNull() ?: emptyList()
+                    orderAdapter.addMoreProducts(orders)
 
+                    if(orders.isEmpty()){
+                        isFinish = true
+                    }
 
-        // HANDLE ORDER VISIBILITY BASED ON ITEMS IN THE ORDER
-        if (orderList.isEmpty()) {
-            orderRecyclerView.visibility = View.GONE
-            emptyOrderText.visibility = View.VISIBLE
-        }else{
-            orderRecyclerView.visibility = View.VISIBLE
-            emptyOrderText.visibility = View.GONE
+                    // SHOW OR HIDE THE ORDERS TEXTVIEW BASED ON THE LIST SIZE
+                    if (orders.isEmpty() && pageNumber == 1) {
+                        orderRecyclerView.visibility = View.GONE
+                        emptyOrderText.visibility = View.VISIBLE
+                    } else {
+                        orderRecyclerView.visibility = View.VISIBLE
+                        emptyOrderText.visibility = View.GONE
+                    }
+                    pageNumber++
+                }
+                // HANDLE ERROR (SHOW TOAST, LOG ERROR, ETC.)
+                else {
+                    val error = result.exceptionOrNull()?.message ?: "Load failed. Please check your internet connection or try again."
+                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                }
+                isLoading = false
+            }
         }
     }
 
-    // FUNCTION TO UPDATE ORDER LIST
-    private fun updateCartList(orders: List<Order>) {
-        orderList = orders
-        orderAdapter.updateItems(orders)
+    // SETUP RECYCLER VIEW SCROLL LISTENER FOR ENDLESS SCROLLING
+    private fun setupRecyclerViewScrollListener() {
+        orderRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                if (!isLoading && !isFinish && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
+                        loadOrders()
+                }
+            }
+        })
     }
 }

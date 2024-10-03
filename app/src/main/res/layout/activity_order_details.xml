@@ -31,7 +31,7 @@
 
                 <!-- Order ID -->
                 <TextView
-                    android:id="@+id/odOrderID"
+                    android:id="@+id/odOrderIdTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -57,13 +57,58 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!--    Order Date     -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/order_details"
+                android:textColor="@color/black20"
+                android:fontFamily="@font/roboto_medium"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginVertical="14dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="2dp"
+                android:background="@color/black20" />
+
+            <!--   Order ID Text   -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="7dp"
+                android:paddingVertical="4dp"
+                android:layout_columnWeight="1" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/order_id"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black20"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/odOrderId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textAlignment="textEnd"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!--   Order Date Text   -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
                 android:layout_columnWeight="1" >
 
                 <TextView
@@ -71,25 +116,26 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/order_date"
+                    android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/black20"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/odOrderDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black20"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="14sp" />
             </LinearLayout>
 
-            <!--    Order Status     -->
+            <!--   Order Status Text   -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="7dp"
+                android:paddingVertical="4dp"
                 android:layout_columnWeight="1" >
 
                 <TextView
@@ -97,25 +143,26 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/order_status"
+                    android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/black20"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/odOrderStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black20"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="14sp" />
             </LinearLayout>
 
-            <!--    Order Total Price     -->
+            <!--   Order Total Price Text   -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="7dp"
+                android:paddingVertical="4dp"
                 android:layout_columnWeight="1" >
 
                 <TextView
@@ -123,32 +170,217 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/total_price"
+                    android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/black20"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/odOrderTotalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black20"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="14sp" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/shipping_details"
+                android:textColor="@color/black20"
+                android:paddingTop="12dp"
+                android:fontFamily="@font/roboto_medium"
+                android:textAlignment="center"
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_marginVertical="18dp"
+                android:layout_marginVertical="14dp"
                 android:layout_marginHorizontal="10dp"
                 android:layout_height="2dp"
                 android:background="@color/black20" />
+
+            <!--   User Name Text   -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:layout_columnWeight="1" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/name"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black20"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/odUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!--   Phone Number Text   -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:layout_columnWeight="1" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/phone_number"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/odPhoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!--   Shipping Address Text   -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:layout_columnWeight="1" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/shipping_address"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/odShippingAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!--   City Text   -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:layout_columnWeight="1" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/city"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/odCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!--   State Text   -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:layout_columnWeight="1" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/state"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/odState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!--   Postal Code Text   -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:layout_columnWeight="1" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/postal_code"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/odPostalCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black20"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <!--    Order Details View  -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/odRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_marginVertical="12dp"
                 android:scrollbars="vertical" />
+
+            <!-- Cancel Order Button -->
+            <Button
+                android:id="@+id/odBtnCancelOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:text="@string/cancel_order"
+                android:height="64dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/button_background"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

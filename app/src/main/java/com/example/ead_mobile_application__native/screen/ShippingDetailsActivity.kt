@@ -1,10 +1,7 @@
 package com.example.ead_mobile_application__native.screen
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -13,8 +10,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ead_mobile_application__native.R
-import com.example.ead_mobile_application__native.model.Customer
-import com.example.ead_mobile_application__native.model.CustomerDetails
 import com.example.ead_mobile_application__native.model.ShippingDetails
 import com.example.ead_mobile_application__native.service.CustomerApiService
 
@@ -67,14 +62,14 @@ class ShippingDetailsActivity : AppCompatActivity() {
                 result.onSuccess { isAvailable ->
                     if(isAvailable){
                         shippingButton.text = getString(R.string.change_shipping)
-
-                        // SETUP VIEW DETAILS
-                        setupViewDetails()
                     }else{
                         shippingButton.text = getString(R.string.add_shipping)
                     }
+
+                    // SETUP VIEW DETAILS
+                    setupViewDetails()
                 }.onFailure { error ->
-                    val errorMessage = error.message ?: "Failed to fetch shipping details."
+                    val errorMessage = error.message ?: "408: Shipping details fetching failed: Please check your internet connection."
                     Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
                 }
             }
@@ -117,6 +112,7 @@ class ShippingDetailsActivity : AppCompatActivity() {
                             when (status) {
                                 200 -> {
                                     Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                                    finish()
                                 }
                                 401 -> {
                                     Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()

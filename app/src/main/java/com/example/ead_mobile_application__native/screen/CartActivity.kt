@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.adapter.CartAdapter
-import com.example.ead_mobile_application__native.helper.CartItemTouchHelper
 import com.example.ead_mobile_application__native.adapter.OnCartChangeListener
+import com.example.ead_mobile_application__native.helper.CartItemTouchHelper
 import com.example.ead_mobile_application__native.model.Cart
 import com.example.ead_mobile_application__native.service.CartApiService
 import com.example.ead_mobile_application__native.service.CustomerApiService
@@ -217,20 +217,29 @@ class CartActivity : AppCompatActivity(), OnCartChangeListener {
 
             // PLACE THE ORDER USING THE ORDER ITEM LIST
             orderApiService.placeOrder(todayDate) { status, message ->
-                if (status != null) {
-                    when (status) {
-                        200 -> {
-                            Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                runOnUiThread {
+                    if (status != null) {
+                        when (status) {
+                            200 -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+
+                                // NAVIGATION TO THE ORDERS
+                                val intent = Intent(this, OrderActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+
+                            401 -> {
+                                Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()
+                            }
+
+                            else -> {
+                                Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                        401 -> {
-                            Toast.makeText(this, "$status: Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show()
-                        }
-                        else -> {
-                            Toast.makeText(this, "$status: $message", Toast.LENGTH_SHORT).show()
-                        }
+                    } else {
+                        Toast.makeText(this, "Change password failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(this, "Change password failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
