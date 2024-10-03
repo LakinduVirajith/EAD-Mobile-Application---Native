@@ -181,10 +181,14 @@ class SignUpActivity : AppCompatActivity() {
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
                     if (response != null) {
-                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
+                        if(response.startsWith("200")){
+                            Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
 
-                        val intent = Intent(this, SignInActivity::class.java)
-                        startActivity(intent)
+                            val intent = Intent(this, SignInActivity::class.java)
+                            startActivity(intent)
+                        }else{
+                            Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         Toast.makeText(this, "Sign Up Failed: Please check your internet connection.", Toast.LENGTH_SHORT).show()
                     }

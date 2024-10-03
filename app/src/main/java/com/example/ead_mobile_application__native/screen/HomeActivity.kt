@@ -46,7 +46,7 @@ class HomeActivity : AppCompatActivity() {
 
     // INITIALIZE PAGE NUMBER AND SIZE
     private var pageNumber = 1
-    private var pageSize = 4
+    private var pageSize = 10
     private var currentSearchQuery: String? = null
     private var isLoading = false
 

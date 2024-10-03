@@ -48,8 +48,8 @@ class VendorRankingActivity : AppCompatActivity() {
         val btnOrderDetails = findViewById<Button>(R.id.vrBtnOrderDetails)
 
         // SETUP VIEW DETAILS
-        val orderIdNumber = intent.getIntExtra("order_id", 0)
-        setupViewDetails(orderIdNumber)
+        val orderId = intent.getStringExtra("order_id")
+        setupViewDetails(orderId)
 
         // HANDLE SEND BUTTON CLICK
         btnSend.setOnClickListener {
@@ -58,7 +58,7 @@ class VendorRankingActivity : AppCompatActivity() {
 
         // HANDLE NAVIGATION BUTTON CLICK
         btnOrderDetails.setOnClickListener {
-            handleNavigation(orderIdNumber)
+            handleNavigation(orderId)
         }
     }
 
@@ -69,11 +69,11 @@ class VendorRankingActivity : AppCompatActivity() {
     }
 
     // FUNCTION TO SETUP VIEW DETAILS
-    private fun setupViewDetails(orderId: Int) {
+    private fun setupViewDetails(orderId: String?) {
         // GET THE ORDER ID FROM INTENT AND SET THE ORDER ID
         supportActionBar?.title = ""
         val orderIDTextView: TextView = findViewById(R.id.vrOrderID)
-        orderIDTextView.text = String.format(getString(R.string.order_id_format), orderId)
+        orderIDTextView.text = orderId
     }
 
     // FUNCTION TO HANDLE SEND LOGIC
@@ -106,7 +106,7 @@ class VendorRankingActivity : AppCompatActivity() {
     }
 
     // FUNCTION TO HANDLE NAVIGATION
-    private fun handleNavigation(orderId: Int){
+    private fun handleNavigation(orderId: String?){
         val intent = Intent(this, OrderDetailsActivity::class.java).apply {
             putExtra("order_id", orderId)
         }
