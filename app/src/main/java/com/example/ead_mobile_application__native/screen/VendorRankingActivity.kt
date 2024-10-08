@@ -48,20 +48,14 @@ class VendorRankingActivity : AppCompatActivity() {
         val commentEditText = findViewById<EditText>(R.id.vrComment)
         val ratingBar = findViewById<RatingBar>(R.id.vrRatingBar)
         val btnSend = findViewById<Button>(R.id.vrBtnSend)
-        val btnOrderDetails = findViewById<Button>(R.id.vrBtnOrderDetails)
 
         // SETUP VIEW DETAILS
-        val orderId = intent.getStringExtra("order_id")
-        setupViewDetails(orderId)
+        val orderItemId = intent.getStringExtra("order_item_id")
+        setupViewDetails(orderItemId)
 
         // HANDLE SEND BUTTON CLICK
         btnSend.setOnClickListener {
-            handleSend(orderId, commentEditText, ratingBar)
-        }
-
-        // HANDLE NAVIGATION BUTTON CLICK
-        btnOrderDetails.setOnClickListener {
-            handleNavigation(orderId)
+            handleSend(orderItemId, commentEditText, ratingBar)
         }
     }
 
@@ -72,15 +66,15 @@ class VendorRankingActivity : AppCompatActivity() {
     }
 
     // FUNCTION TO SETUP VIEW DETAILS
-    private fun setupViewDetails(orderId: String?) {
+    private fun setupViewDetails(orderItemId: String?) {
         // GET THE ORDER ID FROM INTENT AND SET THE ORDER ID
         supportActionBar?.title = ""
-        val orderIDTextView: TextView = findViewById(R.id.vrOrderID)
-        orderIDTextView.text = orderId
+        val orderItemIDTextView: TextView = findViewById(R.id.vrOrderItemID)
+        orderItemIDTextView.text = orderItemId
     }
 
     // FUNCTION TO HANDLE SEND LOGIC
-    private fun handleSend(vendorId: String?, commentEditText: EditText, ratingBar: RatingBar) {
+    private fun handleSend(orderItemId: String?, commentEditText: EditText, ratingBar: RatingBar) {
         // RETRIEVE INPUT VALUES
         val comment = commentEditText.text.toString()
         val rating = ratingBar.rating.toString()
@@ -95,7 +89,7 @@ class VendorRankingActivity : AppCompatActivity() {
             val todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
             // CALL RANKING METHOD FROM API SERVICE
-            vendorApiService.addRanking(vendorId, comment, rating.toInt(), todayDate) { status, message ->
+            vendorApiService.addRanking(orderItemId, comment, rating.toInt(), todayDate) { status, message ->
                 runOnUiThread {
                     // DISPLAY FEEDBACK BASED ON RESPONSE
                     if (status != null) {
@@ -118,13 +112,5 @@ class VendorRankingActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    // FUNCTION TO HANDLE NAVIGATION
-    private fun handleNavigation(orderId: String?){
-        val intent = Intent(this, OrderDetailsActivity::class.java).apply {
-            putExtra("order_id", orderId)
-        }
-        startActivity(intent)
     }
 }

@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.model.Order
 import com.example.ead_mobile_application__native.screen.OrderDetailsActivity
-import com.example.ead_mobile_application__native.screen.VendorRankingActivity
 
 class OrderAdapter(private var orders: MutableList<Order>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>(){
 
@@ -83,18 +82,10 @@ class OrderAdapter(private var orders: MutableList<Order>) : RecyclerView.Adapte
 
         // SET CLICK LISTENER TO NAVIGATE TO ORDER DETAILS
         holder.itemView.setOnClickListener {
-            if(order.status == "Delivered"){
-                val intent = Intent(context, VendorRankingActivity::class.java).apply {
-                    putExtra("order_id", order.orderId)
-                }
-                context.startActivity(intent)
-            }else{
-                val intent = Intent(context, OrderDetailsActivity::class.java).apply {
-                    putExtra("order_id", order.orderId)
-                }
-                context.startActivity(intent)
+            val intent = Intent(context, OrderDetailsActivity::class.java).apply {
+                putExtra("order_id", order.orderId)
             }
-
+            context.startActivity(intent)
         }
     }
 

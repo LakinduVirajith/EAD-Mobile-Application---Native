@@ -32,7 +32,7 @@
 
                 <!-- Order ID -->
                 <TextView
-                    android:id="@+id/vrOrderID"
+                    android:id="@+id/vrOrderItemID"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -122,17 +122,6 @@
             android:layout_height="wrap_content"
             android:text="@string/send"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:height="64dp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/button_background" />
-
-        <!-- Order Details Button -->
-        <Button
-            android:id="@+id/vrBtnOrderDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/order_details"
             android:layout_marginBottom="16dp"
             android:height="64dp"
             android:textColor="@android:color/white"

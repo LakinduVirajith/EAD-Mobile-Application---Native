@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.ead_mobile_application__native.R
 import com.example.ead_mobile_application__native.model.OrderProductDetails
 import com.example.ead_mobile_application__native.screen.ProductDetailsActivity
+import com.example.ead_mobile_application__native.screen.VendorRankingActivity
 
 class OrderDetailsAdapter (private var productDetails: List<OrderProductDetails>) : RecyclerView.Adapter<OrderDetailsAdapter.OrderDetailsViewHolder>() {
     inner class OrderDetailsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -23,6 +25,7 @@ class OrderDetailsAdapter (private var productDetails: List<OrderProductDetails>
         val productTotalPrice: TextView = itemView.findViewById(R.id.odProductTotalPrice)
         val productStatus: TextView = itemView.findViewById(R.id.odProductStatus)
         val productImage: ImageView = itemView.findViewById(R.id.odProductImage)
+        val rankingButton: Button = itemView.findViewById(R.id.odBtnRankVendor)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderDetailsViewHolder {
@@ -86,6 +89,20 @@ class OrderDetailsAdapter (private var productDetails: List<OrderProductDetails>
                 putExtra("product_id", details.productId)
             }
             context.startActivity(intent)
+        }
+
+        // SET CLICK LISTENER TO NAVIGATE TO RANKING BASED ON STATUS
+        if(details.status == "Delivered"){
+            holder.rankingButton.visibility = View.VISIBLE
+
+            holder.rankingButton.setOnClickListener{
+                val intent = Intent(context, VendorRankingActivity::class.java).apply {
+                    putExtra("order_item_id", details.orderItemId)
+                }
+                context.startActivity(intent)
+            }
+        }else{
+            holder.rankingButton.visibility = View.GONE
         }
     }
 
