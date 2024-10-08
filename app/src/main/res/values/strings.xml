@@ -86,6 +86,7 @@
     <string name="order_status">Order Status: </string>
     <string name="total">Total: </string>
     <string name="cancel_order">Cancel Order</string>
+    <string name="add_review">Add Review</string>
 
     <!--   VENDOR RANKING ACTIVITY    -->
     <string name="vendor_ranking">Vendor Ranking</string>

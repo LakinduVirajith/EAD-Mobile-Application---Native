@@ -20,13 +20,13 @@ class VendorApiService(private val context: Context)  {
     private val authApiService = AuthApiService(context)
 
     // SERVICE FUNCTION TO ADD RANKING TO THE VENDOR
-    fun addRanking(vendorId: String?, comment: String, rating: Int, createdAt: String, callback: (Int? ,String?) -> Unit) {
+    fun addRanking(orderItemId: String?, comment: String, rating: Int, createdAt: String, callback: (Int? ,String?) -> Unit) {
         // CONSTRUCT THE URL
         val url = "${BuildConfig.BASE_URL}/ranking/vendor"
 
         // CREATE THE JSON OBJECT FOR THE REQUEST BODY
         val jsonBody = JSONObject().apply {
-            put("vendorId", vendorId?.trim())
+            put("orderItemId", orderItemId?.trim())
             put("comment", comment.trim())
             put("rating", rating.toString().trim())
             put("createdAt", createdAt.trim())
